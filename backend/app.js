@@ -18,6 +18,10 @@ db.once('open', function() {
 });
 
 const userRoutes = require('./routes/user');
+const visitRoutes = require('./routes/visit');
+const businessRoutes = require('./routes/business');
+const guestRoutes = require('./routes/guest');
+const buildingRoutes = require('./routes/building');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -36,6 +40,10 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/user', userRoutes);
+app.use('/api/visit', visitRoutes);
+app.use('/api/building', buildingRoutes);
+app.use('/api/business', businessRoutes);
+app.use('/api/guest', guestRoutes);
 
 
 module.exports = app;

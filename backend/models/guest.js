@@ -13,7 +13,7 @@ const guestSchema = new mongoose.Schema({
     },
     qrCode: {
       type: String,
-      required: true
+      required: false
     },
     id: {
       type: Number,
