@@ -1,0 +1,23 @@
+<mat-drawer-container class="example-container" >
+  <mat-drawer #drawer  [mode]="'side'">
+    <mat-nav-list>
+      <a mat-list-item position="start" (click)="pageSwitcher(1)" >
+        Analytics
+      </a>
+      <a mat-list-item (click)="pageSwitcher(2)">
+        My Business(es)
+      </a>
+      <a mat-list-item (click)="pageSwitcher(3)">
+        Settings
+      </a>
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <button  style="float: left" mat-icon-button color="primary" [matTooltip]="drawer.opened ? 'Close SideNav' : 'Reveal SideNav'" #sidenav (click)="drawer.toggle()" aria-label="Reveal SideNav">
+      <mat-icon>{{drawer.opened ? 'menu_open': 'menu'}}</mat-icon>
+    </button>
+    <app-business-analytics *ngIf="tab===1"></app-business-analytics>
+    <app-my-businesses *ngIf="tab===2"></app-my-businesses>
+    <app-business-owner-settings *ngIf="tab===3"></app-business-owner-settings>
+  </mat-drawer-content>
+</mat-drawer-container>

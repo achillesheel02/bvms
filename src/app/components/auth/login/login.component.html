@@ -1,13 +1,15 @@
 <div class="content">
   <h3>Login Here</h3>
 
-  <form fxLayout="column" fxLayoutGap="3px" >
+  <form fxLayout="column" fxLayoutGap="3px" #form="ngForm" (ngSubmit)="onSubmit(form)">
   <mat-form-field appearance="outline">
     <mat-label>National ID</mat-label>
     <input
       type="number"
       required
       matInput
+      ngModel
+      name="id"
     placeholder="Enter your ID">
   </mat-form-field>
   <mat-form-field appearance="outline">
@@ -15,15 +17,13 @@
     <input
       matInput
       required
+      ngModel
+      name="password"
       type="password"
       placeholder="Type password here"
     >
     </mat-form-field>
-    <button mat-raised-button type="submit" color="primary">Sign In</button>
-    <br>
-    <mat-divider></mat-divider>
-    <br>
-    <button mat-stroked-button [routerLink]="['/sign-up']" color="primary">Sign Up</button>
+    <button mat-raised-button [disabled]="form.invalid" type="submit" color="primary">Sign In</button>
   </form>
 
 

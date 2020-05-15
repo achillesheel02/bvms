@@ -1,1 +1,6 @@
-<mat-toolbar>Visitor Management Information System</mat-toolbar>
+<mat-toolbar>Visitor Management Information System
+<div class="spacer"></div>
+  <button *ngIf="authService.isAuth()" mat-icon-button color="primary" matTooltip="Logout" (click)="authService.logout()" aria-label="Logout">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>

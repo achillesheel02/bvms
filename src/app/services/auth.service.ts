@@ -25,19 +25,23 @@ export class AuthService {
 
   login(id: number, password: string) {
     const authData = {id, password};
-    this.http.post<{token: string, userId: string}>(this.url + 'api/user/login', authData)
+    this.http.post<{token: string, id: string}>(this.url + 'api/user/login', authData)
       .subscribe(response => {
+        console.log(response);
         this.token = response.token;
         this.setAuthTimer(3600000);
-        this.userId = response.userId;
-        this.getUser();
+        this.userId = response.id;
+        this.getUser().subscribe( res => {
+            this.user = res.user[0];
+          }
+        );
         this.isAuthenticated = true;
         this.authStatusListener.next(true);
         const now = new Date();
         const expirationDate = new Date(now.getTime() + 3600000);
         this.saveAuthData(this.token, expirationDate, this.userId);
         // #TODO change router navigation after login
-        this.router.navigate(['main']);
+        this.router.navigate(['dashboard']);
       }, error => {
       });
   }
@@ -52,8 +56,13 @@ export class AuthService {
       this.token = authInfo._token;
       this.setAuthTimer(expiresIn);
       this.isAuthenticated = true;
-      this.user = authInfo._user;
+      this.userId = authInfo._user;
+      this.getUser().subscribe( res => {
+          this.user = res.user[0];
+        }
+      );
       this.authStatusListener.next(true);
+      this.router.navigate(['dashboard']);
     }
   }
 
@@ -79,11 +88,12 @@ export class AuthService {
   }
 
   getUser() {
-    return this.http.get<{ message: string; userInfo: any }>(this.url + 'api/user/fetch/' + this.user)
-      .subscribe( res => {
-          this.user = res.userInfo;
-        }
-      );
+    return this.http.get<{ message: string; user: any }>(this.url + 'api/user/fetch/' + this.userId);
+  }
+
+  getUserInfo() {
+    console.log(this.user);
+    return this.user;
   }
 
   isAuth() {
