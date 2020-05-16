@@ -49,6 +49,10 @@ import { BuildingOwnerSettingsComponent } from './components/dashboard/building-
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSelectModule} from '@angular/material/select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {CdkTableModule} from '@angular/cdk/table';
+import {GoogleMapsModule} from '@angular/google-maps';
 
 
 
@@ -103,7 +107,11 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatListModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSelectModule,
+    MatProgressSpinnerModule,
+    CdkTableModule,
+    GoogleMapsModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

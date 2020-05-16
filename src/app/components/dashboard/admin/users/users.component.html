@@ -1,47 +1,135 @@
-<div class="content">
+<button mat-button [matMenuTriggerFor]="menu">Tasks</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="menuItem=1">View People</button>
+  <button mat-menu-item (click)="menuItem=2">Add People</button>
+  <button mat-menu-item (click)="menuItem=3">Edit or Remove People</button>
+</mat-menu>
+<div class="content" *ngIf="menuItem === 1">
   <h2>People</h2>
 <mat-form-field>
   <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Looking for something?">
+  <input matInput (keyup)="applyFilter($event)" placeholder="Looking for something?" >
 </mat-form-field>
 
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" matSort >
-
+  <table mat-table [dataSource]="dataSource" >
     <!-- ID Column -->
     <ng-container matColumnDef="firstName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+      <th mat-header-cell *matHeaderCellDef > First Name </th>
       <td mat-cell *matCellDef="let row"> {{row.firstName}} </td>
     </ng-container>
 
     <!-- Progress Column -->
     <ng-container matColumnDef="lastName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+      <th mat-header-cell *matHeaderCellDef > Last Name </th>
       <td mat-cell *matCellDef="let row"> {{row.lastName}} </td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+      <th mat-header-cell *matHeaderCellDef > ID </th>
       <td mat-cell *matCellDef="let row"> {{row.id}} </td>
     </ng-container>
 
     <!-- Color Column -->
     <ng-container matColumnDef="phoneNumber">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone Number </th>
-      <td mat-cell *matCellDef="let row" > {{row.phoneNumber}} </td>
+      <th mat-header-cell *matHeaderCellDef> Phone Number </th>
+      <td mat-cell *matCellDef="let row" > {{row.phoneNumber }} </td>
     </ng-container>
 
     <ng-container matColumnDef="roles">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Roles </th>
+      <th mat-header-cell *matHeaderCellDef > Role(s) </th>
       <td mat-cell *matCellDef="let row" > <div *ngFor="let role of row.roles"> - {{role | role}}</div></td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
-    </tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"><</tr>
+    <tr mat-row *matRowDef="let rows; columns: displayedColumns;"></tr>
+
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [length]="users.length" ></mat-paginator>
 </div>
+</div>
+
+<div class="content" *ngIf="menuItem === 2">
+  <h3>Add New Person Here</h3>
+
+  <form fxLayout="column" fxLayoutGap="3px" #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input
+        matInput
+        required
+        ngModel
+        name="firstName"
+        type="text"
+        placeholder="First name here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input
+        matInput
+        ngModel
+        name="lastName"
+        type="text"
+        placeholder="Last name here"
+      >
+    </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>National ID</mat-label>
+      <input
+        type="number"
+        required
+        matInput
+        ngModel
+        name="id"
+        placeholder="ID here">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        required
+        ngModel
+        name="password"
+        type="password"
+        placeholder="Password here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        ngModel
+        email
+        name="email"
+        type="email"
+        placeholder="Email here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Phone Number</mat-label>
+      <input
+        matInput
+        ngModel
+        name="phoneNumber"
+        type="number"
+        placeholder="Phone number here"
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Role(s)</mat-label>
+      <mat-select [(value)]="selected" ngModel name="roles" multiple required>
+        <mat-option value="admin">Administrator</mat-option>
+        <mat-option value="businessOwner">Business Owner</mat-option>
+        <mat-option value="buildingOwner">Building Owner</mat-option>
+        <mat-option value="personnel">Personnel</mat-option>
+        <mat-option value="guest">Guest</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button [disabled]="form.invalid" type="submit" color="primary">Add Person</button>
+  </form>
+
+
 </div>

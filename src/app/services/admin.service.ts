@@ -15,4 +15,24 @@ export class AdminService {
   fetchAllUsers(){
     return this.http.get<{message: string, users: any}>(this.url + 'api/user/all');
   }
+
+  addUser(user){
+    return this.http.post(this.url + 'api/user/create', user);
+  }
+
+  addBuilding(building){
+    return this.http.post(this.url + 'api/building/add', building);
+  }
+
+  fetchAllBuildings(){
+    return this.http.get<{message: string, buildings: any}>(this.url + 'api/building/all');
+  }
+
+  fetchUserByRole(role){
+    return this.http.get<{message: string, users: any}>(this.url + 'api/user/role/' + role);
+  }
+
+  fetchUserNameById(id){
+    return this.http.get<{message: string, user: any}>(this.url + 'api/user/fetchByDbId/' + id);
+  }
 }

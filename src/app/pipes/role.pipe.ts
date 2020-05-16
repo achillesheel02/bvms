@@ -8,7 +8,7 @@ export class RolePipe implements PipeTransform {
   transform(value: string, ...args: unknown[]): unknown {
     switch (value) {
       case 'admin':
-        return 'Adminsitrator';
+        return 'Adminstrator';
       case 'buildingOwner':
         return 'Building Owner';
       case 'businessOwner':

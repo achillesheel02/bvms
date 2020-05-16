@@ -54,6 +54,20 @@ router.get('/all', (req, res, next) => {
     });
 
 });
+router.get('/fetchByDbId/:id', (req, res, next) => {
+  User.find({ _id: req.params.id }).then( user => {
+    res.status(200).json({
+      message: user.length.toString() + " user fetched!",
+      user: user
+    });
+  })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      });
+    });
+
+});
 
 router.get('/fetch/:id', (req, res, next) => {
   User.find({ id: req.params.id }).then( user => {
@@ -70,24 +84,11 @@ router.get('/fetch/:id', (req, res, next) => {
 
 });
 
-router.get('/fetch/buildingOwners', (req, res, next) => {
-  User.find({ roles: 'buildingOwner' }).then( users => {
+router.get('/role/:id', (req, res, next) => {
+  User.find({ roles: req.params.id }).then( users => {
+    console.log(users);
     res.status(200).json({
-      message: users.length.toString() + " building owners fetched!",
-      users: users
-    });
-  })
-    .catch(err => {
-      res.status(500).json({
-        error: err
-      });
-    });
-});
-
-router.get('/fetch/businessOwners', (req, res, next) => {
-  User.find({ roles: 'businessOwner' }).then( users => {
-    res.status(200).json({
-      message: users.length.toString() + " business owners fetched!",
+      message: users.length.toString() + " users fetched!",
       users: users
     });
   })

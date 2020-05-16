@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
       type: Number,
       required: false
     },
+    qrCode: {
+      type: String,
+      required: false
+    },
     roles: [{
       type: String,
       required: true

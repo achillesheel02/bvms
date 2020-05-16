@@ -17,6 +17,7 @@ export class AuthService {
   private isAuthenticated = false;
   private timer: any;
   private user: any;
+  private expiry: any;
 
 
   constructor(private http: HttpClient,
@@ -39,6 +40,7 @@ export class AuthService {
         this.authStatusListener.next(true);
         const now = new Date();
         const expirationDate = new Date(now.getTime() + 3600000);
+        this.expiry = expirationDate;
         this.saveAuthData(this.token, expirationDate, this.userId);
         // #TODO change router navigation after login
         this.router.navigate(['dashboard']);
@@ -51,6 +53,7 @@ export class AuthService {
     if (!authInfo) { return; }
     const now = new Date();
     const expiresIn = authInfo.expirationDate.getTime() - now.getTime();
+    this.expiry = authInfo.expirationDate;
     console.log(authInfo);
     if (expiresIn > 0) {
       this.token = authInfo._token;
@@ -81,6 +84,23 @@ export class AuthService {
     this.clearAuthData();
     this.authStatusListener.next(false);
     this.router.navigate(['login']);
+  }
+
+   timeConversion(millisec) {
+
+    const seconds = (millisec / 1000).toFixed(1);
+
+    const minutes = (millisec / (1000 * 60)).toFixed(1);
+
+    // @ts-ignore
+    if (seconds < 60) {
+      return seconds + ' seconds';
+    } else { // @ts-ignore
+       // @ts-ignore
+      if (minutes < 60) {
+             return minutes + ' minutes';
+           }
+     }
   }
 
   getToken() {
@@ -114,6 +134,9 @@ export class AuthService {
     localStorage.removeItem('expiration');
     localStorage.removeItem('user');
 
+  }
+  getExpirationTime() {
+    return this.expiry;
   }
   private getAuthData() {
     const token = localStorage.getItem('token');

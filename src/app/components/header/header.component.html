@@ -1,5 +1,6 @@
 <mat-toolbar>Visitor Management Information System
 <div class="spacer"></div>
+  <small *ngIf="authService.isAuth()">Session expiring at: {{authService.getExpirationTime() | date:'mediumTime'}}</small>
   <button *ngIf="authService.isAuth()" mat-icon-button color="primary" matTooltip="Logout" (click)="authService.logout()" aria-label="Logout">
     <mat-icon>close</mat-icon>
   </button>
