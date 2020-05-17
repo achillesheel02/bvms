@@ -194,10 +194,17 @@ export class MyBuildingsComponent implements OnInit {
 
   updateBuildings() {
     this.buildings = [];
+    this.buildingMarkers=[];
     this.buildingService.fetchMyBuildings(this.user._id)
       .subscribe( res2 => {
         res2.buildings.forEach( x => {
           this.buildings.push(x);
+          this.buildingMarkers.push(new google.maps.Marker({
+            position: {lng: x.geoLocation.longitude, lat: x.geoLocation.latitude},
+            animation: google.maps.Animation.BOUNCE,
+            title: x.name,
+            clickable: false
+          }));
         });
         this.dataSource = new MatTableDataSource(this.buildings);
         this.cdr.detectChanges();

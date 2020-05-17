@@ -128,7 +128,7 @@
 </div>
 
 <div class="content" *ngIf="showPersonnelForm">
-  <h3>Add Personnel Here</h3>
+  <h3>Add Personnel Here <button mat-raised-button (click)="showPersonnelForm=false"  color="warn">Cancel</button></h3>
 
   <form fxLayout="column" fxLayoutGap="3px" #personnelForm="ngForm" (ngSubmit)="onSubmitPersonnel(personnelForm)">
     <mat-form-field appearance="outline">
@@ -196,7 +196,7 @@
     </mat-form-field>
     <button mat-raised-button [disabled]="personnelForm.invalid" type="submit" color="primary">Add Personnel</button>
   </form>
-
+</div>
 
 <div class="content" *ngIf="menuItem === 2">
   <h3>Add New Building Here</h3>

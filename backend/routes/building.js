@@ -75,6 +75,20 @@ router.get('/fetchByOwner/:id', (req, res, next) => {
     });
 });
 
+router.get('/fetchPersonnel/:id', (req, res, next) => {
+  Building.find({ buildingOwner: req.params.id }).then( buildings => {
+    res.status(200).json({
+      message: buildings.length.toString() + " buildings fetched!",
+      buildings: buildings
+    });
+  })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
 router.patch("/edit/:id",(req, res, next) => {
   const building =({
     name: req.body.name,

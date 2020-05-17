@@ -46,7 +46,6 @@ export class BuildingsComponent implements OnInit {
   private geoCoder: google.maps.Geocoder;
   showEditForm = false;
 
-
   constructor(private adminService: AdminService, private cdr: ChangeDetectorRef) {
     this.adminService.fetchAllBuildings()
       .subscribe( res => {

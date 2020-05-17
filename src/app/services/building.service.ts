@@ -18,4 +18,8 @@ export class BuildingService {
   addPersonnel(personnel, building){
     return this.http.post(this.url + 'api/user/addPersonnel/' + building, personnel);
   }
+
+  fetchAllPersonnel(buildingOwner){
+    return this.http.get<{message: string, buildings: any}>(this.url + 'api/building/fetchPersonnel/' + buildingOwner);
+  }
 }
