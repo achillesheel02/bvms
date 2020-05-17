@@ -38,6 +38,11 @@ const buildingSchema = new mongoose.Schema({
       type: Number,
       required: true
     },
+    personnel: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    }],
     buildingId: {
       type: ShortId,
       len: 5,

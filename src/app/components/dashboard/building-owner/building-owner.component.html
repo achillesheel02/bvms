@@ -7,6 +7,9 @@
       <a mat-list-item (click)="pageSwitcher(2)">
         My Building(s)
       </a>
+      <a mat-list-item (click)="pageSwitcher(5)">
+        My Personnel
+      </a>
       <a mat-list-item (click)="pageSwitcher(3)">
         Businesses Residing
       </a>
@@ -23,5 +26,6 @@
     <app-my-buildings *ngIf="tab===2"></app-my-buildings>
     <app-building-businesses-residing *ngIf="tab===3"></app-building-businesses-residing>
     <app-building-owner-settings *ngIf="tab===4"></app-building-owner-settings>
+    <app-my-building-personnel *ngIf="tab===5"></app-my-building-personnel>
   </mat-drawer-content>
 </mat-drawer-container>

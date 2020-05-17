@@ -25,12 +25,12 @@ export class BuildingsComponent implements OnInit {
   lat = null;
   selected: any;
   location = '';
-  editInfo: { id: number, name: string, location: string, floors: number, geoLocation: { lat: number, long: number}} = {
+  editInfo: { id: number, name: string, location: string, floors: number, geoLocation: { latitude: number, longitude: number}} = {
     id: null,
     name: '',
     location: this.location,
     floors: 0,
-    geoLocation: {lat: this.lat, long: this.lng}
+    geoLocation: {latitude: this.lat, longitude: this.lng}
   };
 
   options: google.maps.MapOptions = {
@@ -130,7 +130,7 @@ export class BuildingsComponent implements OnInit {
     const lng = $event.latLng.lng();
     this.lat = lat;
     this.lng = lng;
-    this.editInfo.geoLocation = {long: this.lng, lat: this.lat};
+    this.editInfo.geoLocation = {longitude: this.lng, latitude: this.lat};
 
     this.marker = new google.maps.Marker({
       position: {lng, lat},
@@ -147,9 +147,9 @@ export class BuildingsComponent implements OnInit {
     this.editInfo.name = building.name;
     this.editInfo.floors = building.floors;
     console.log(building);
-    this.editInfo.geoLocation = {lat: building.geoLocation.latitude, long: building.geoLocation.longitude};
+    this.editInfo.geoLocation = {latitude: building.geoLocation.latitude, longitude: building.geoLocation.longitude};
     this.marker = new google.maps.Marker({
-      position: {lng: this.editInfo.geoLocation.long, lat: this.editInfo.geoLocation.lat},
+      position: {lng: this.editInfo.geoLocation.longitude, lat: this.editInfo.geoLocation.latitude},
       animation: google.maps.Animation.BOUNCE
     });
     this.editInfo.location = building.location;

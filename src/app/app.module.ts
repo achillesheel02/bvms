@@ -53,6 +53,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {CdkTableModule} from '@angular/cdk/table';
 import {GoogleMapsModule} from '@angular/google-maps';
+import { MyBuildingPersonnelComponent } from './components/dashboard/building-owner/my-building-personnel/my-building-personnel.component';
 
 
 
@@ -84,7 +85,8 @@ import {GoogleMapsModule} from '@angular/google-maps';
     MyBuildingsComponent,
     BuildingAnalyticsComponent,
     BuildingBusinessesResidingComponent,
-    BuildingOwnerSettingsComponent
+    BuildingOwnerSettingsComponent,
+    MyBuildingPersonnelComponent
   ],
   imports: [
     BrowserModule,
