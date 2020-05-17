@@ -12,15 +12,21 @@ import {MatHeaderRowDef, MatRowDef} from '@angular/material/table';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit{
-  displayedColumns = ['firstName', 'lastName', 'id', 'phoneNumber', 'roles'];
+  displayedColumns = ['firstName', 'lastName', 'id', 'phoneNumber', 'roles', 'actions'];
   dataSource: MatTableDataSource<{firstName: string, lastName: string, id: number, phoneNumber: number, roles: string []}>;
   data = [];
-
+  showEditForm=false;
+  specifiedUserId = null;
 
 
   menuItem = 1;
   selected: any;
   loaded = false;
+  firstName: any;
+  lastName: any;
+  id: any;
+  email: any;
+  phoneNumber: any;
 
   constructor(private adminService: AdminService) {
     this.adminService.fetchAllUsers()
@@ -55,6 +61,7 @@ export class UsersComponent implements OnInit{
   }
 
   updateUserData() {
+    this.data = [];
     this.adminService.fetchAllUsers()
       .subscribe( res => {
         res.users.forEach( x => {
@@ -73,9 +80,39 @@ export class UsersComponent implements OnInit{
   onSubmit(form: NgForm) {
     this.adminService.addUser(form.value)
       .subscribe( res => {
-        this.data=[];
+        this.data =[];
         console.log('User added successfully!');
         this.updateUserData();
+        form.reset();
+      });
+  }
+
+  editUser(userId: number) {
+    this.showEditForm = true;
+    const userEdit = this.data.find( x => x.id === userId);
+    this.firstName = userEdit.firstName;
+    this.lastName = userEdit.lastName;
+    this.id = userEdit.id;
+    this.phoneNumber = userEdit.phoneNumber;
+    this.email = userEdit.email;
+  }
+
+  deleteUser(userId: number) {
+    this.adminService.deleteUser(userId)
+      .subscribe( () => {
+        console.log('User deleted successfully');
+        this.updateUserData();
+      });
+  }
+
+  onSubmitEditForm(EditForm: NgForm) {
+    console.log(EditForm.value);
+    this.adminService.editUser(EditForm.value, this.id)
+      .subscribe(() => {
+        console.log('User edited successfully');
+        this.showEditForm = false;
+        this.updateUserData();
+        EditForm.reset();
       });
   }
 }

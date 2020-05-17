@@ -78,7 +78,6 @@ router.get('/fetchByOwner/:id', (req, res, next) => {
 router.patch("/edit/:id",(req, res, next) => {
   const building =({
     name: req.body.name,
-    buildingOwner: req.body.buildingOwner,
     location: req.body.location,
     geoLocation: req.body.geoLocation,
     floors: req.body.floors,

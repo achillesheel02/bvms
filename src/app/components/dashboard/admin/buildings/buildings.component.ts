@@ -1,4 +1,4 @@
-import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
@@ -12,15 +12,27 @@ import {AdminService} from '../../../../services/admin.service';
 })
 export class BuildingsComponent implements OnInit {
 
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
   locationAcquired = false;
-  displayedColumns: string[] = ['name', 'buildingOwner', 'location', 'floors'];
+  displayedColumns: string[] = ['name', 'buildingOwner', 'location', 'floors', 'actions'];
   dataSource: MatTableDataSource<{ name: string, buildingOwner: string, location: string, floors: number }>;
   buildings = [];
   menuItem = 1;
   buildingOwners = [];
+  specifiedBuildingId = null;
   lng = null;
   lat = null;
   selected: any;
+  location = '';
+  editInfo: { id: number, name: string, location: string, floors: number, geoLocation: { lat: number, long: number}} = {
+    id: null,
+    name: '',
+    location: this.location,
+    floors: 0,
+    geoLocation: {lat: this.lat, long: this.lng}
+  };
+
   options: google.maps.MapOptions = {
     mapTypeId: 'roadmap',
     zoomControl: false,
@@ -31,11 +43,11 @@ export class BuildingsComponent implements OnInit {
   };
   marker: google.maps.Marker;
 
-  location = '';
   private geoCoder: google.maps.Geocoder;
+  showEditForm = false;
 
 
-  constructor(private adminService: AdminService, private ngZone: NgZone) {
+  constructor(private adminService: AdminService, private cdr: ChangeDetectorRef) {
     this.adminService.fetchAllBuildings()
       .subscribe( res => {
         res.buildings.forEach(x => {
@@ -43,8 +55,11 @@ export class BuildingsComponent implements OnInit {
           this.adminService.fetchUserNameById(x.buildingOwner)
             .subscribe( ans => {
               name = ans.user[0].firstName + ' ' + ans.user[0].lastName;
-              this.buildings.push({name: x.name, buildingOwner: name, location: x.location, floors: x.floors});
+              this.buildings.push({id: x._id, name: x.name, buildingOwner: name, location: x.location, floors: x.floors, geoLocation: x.geoLocation});
               this.dataSource = new MatTableDataSource(this.buildings);
+              this.cdr.detectChanges();
+              this.dataSource.sort = this.sort;
+              this.dataSource.paginator = this.paginator;
             });
         });
       });
@@ -86,17 +101,9 @@ export class BuildingsComponent implements OnInit {
       .subscribe( () => {
         console.log('Building added successfully');
         form.reset();
+        this.updateBuildings();
       });
 
-  }
-  private setCurrentLocation() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-        this.getAddress(this.lat, this.lng);
-      });
-    }
   }
 
   getAddress(latitude, longitude) {
@@ -106,6 +113,7 @@ export class BuildingsComponent implements OnInit {
       if (status === 'OK') {
         if (results[0]) {
           this.location = results[0].formatted_address;
+          this.editInfo.location = this.location;
         } else {
           window.alert('No results found');
         }
@@ -122,6 +130,8 @@ export class BuildingsComponent implements OnInit {
     const lng = $event.latLng.lng();
     this.lat = lat;
     this.lng = lng;
+    this.editInfo.geoLocation = {long: this.lng, lat: this.lat};
+
     this.marker = new google.maps.Marker({
       position: {lng, lat},
       animation: google.maps.Animation.BOUNCE
@@ -131,5 +141,59 @@ export class BuildingsComponent implements OnInit {
   }
 
 
+  editBuilding( id: any) {
+    const building = this.buildings.find( x => id === x.id);
+    this.editInfo.id = building.id;
+    this.editInfo.name = building.name;
+    this.editInfo.floors = building.floors;
+    console.log(building);
+    this.editInfo.geoLocation = {lat: building.geoLocation.latitude, long: building.geoLocation.longitude};
+    this.marker = new google.maps.Marker({
+      position: {lng: this.editInfo.geoLocation.long, lat: this.editInfo.geoLocation.lat},
+      animation: google.maps.Animation.BOUNCE
+    });
+    this.editInfo.location = building.location;
+    this.showEditForm = true;
 
+  }
+
+  deleteBuilding(id: number) {
+    this.adminService.deleteBuilding(id)
+      .subscribe( () => {
+        console.log('Building deleted!');
+        this.updateBuildings();
+      });
+
+
+  }
+
+  updateBuildings() {
+    this.buildings =[];
+    this.adminService.fetchAllBuildings()
+      .subscribe( res => {
+        res.buildings.forEach(x => {
+          let name;
+          this.adminService.fetchUserNameById(x.buildingOwner)
+            .subscribe( ans => {
+              name = ans.user[0].firstName + ' ' + ans.user[0].lastName;
+              // tslint:disable-next-line:max-line-length
+              this.buildings.push({id: x._id, name: x.name, buildingOwner: name, location: x.location, floors: x.floors, geoLocation: x.geoLocation});
+              this.dataSource = new MatTableDataSource(this.buildings);
+              this.cdr.detectChanges();
+              this.dataSource.sort = this.sort;
+              this.dataSource.paginator = this.paginator;
+            });
+        });
+      });
+
+  }
+  onSubmitEditForm(EditForm: NgForm) {
+    this.adminService.editBuilding(this.editInfo, this.editInfo.id)
+      .subscribe( () => {
+        console.log('Building updated successfully!');
+        this.updateBuildings();
+        this.showEditForm = false;
+        EditForm.reset();
+      });
+  }
 }

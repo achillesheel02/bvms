@@ -92,8 +92,6 @@ router.get('/fetchByBuilding/:id', (req, res, next) => {
 router.patch("/edit/:id",(req, res, next) => {
   const business =({
     name: req.body.name,
-    businessOwner: req.body.businessOwner,
-    building: req.body.building,
     description: req.body.description,
     floorNo: req.body.floorNo,
   });
@@ -112,7 +110,7 @@ router.patch("/edit/:id",(req, res, next) => {
 
 
 router.delete("/delete/:id", (req, res, next) => {
-  Business.deleteOne({ _id: req.params._id }).then(result => {
+  Business.deleteOne({ _id: req.params.id }).then(result => {
     res.status(200).json({ message: "Business deleted!" });
   });
 });

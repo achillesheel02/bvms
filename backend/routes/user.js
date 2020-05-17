@@ -105,10 +105,8 @@ router.patch("/edit/:id",(req, res, next) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
-    password: hash,
     id: req.body.id,
     phoneNumber: req.body.phoneNumber,
-    roles: req.body.roles
   });
   User.updateOne({ id: req.params.id },user)
     .then(result => {

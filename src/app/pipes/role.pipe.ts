@@ -15,6 +15,8 @@ export class RolePipe implements PipeTransform {
         return 'Business Owner';
       case 'personnel':
         return 'Personnel';
+      case 'guest':
+        return 'Guest';
     }
     return null;
   }

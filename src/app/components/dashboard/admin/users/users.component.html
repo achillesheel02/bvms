@@ -2,9 +2,11 @@
 <mat-menu #menu="matMenu">
   <button mat-menu-item (click)="menuItem=1">View People</button>
   <button mat-menu-item (click)="menuItem=2">Add People</button>
-  <button mat-menu-item (click)="menuItem=3">Edit or Remove People</button>
 </mat-menu>
-<div class="content" *ngIf="menuItem === 1">
+<div *ngIf="menuItem === 1">
+
+
+  <div class="content" >
   <h2>People</h2>
 <mat-form-field>
   <mat-label>Filter</mat-label>
@@ -34,12 +36,30 @@
     <!-- Color Column -->
     <ng-container matColumnDef="phoneNumber">
       <th mat-header-cell *matHeaderCellDef> Phone Number </th>
-      <td mat-cell *matCellDef="let row" > {{row.phoneNumber }} </td>
+      <td mat-cell *matCellDef="let row" > {{row.phoneNumber? '+254 ' + row.phoneNumber : '' }} </td>
     </ng-container>
 
     <ng-container matColumnDef="roles">
       <th mat-header-cell *matHeaderCellDef > Role(s) </th>
       <td mat-cell *matCellDef="let row" > <div *ngFor="let role of row.roles"> - {{role | role}}</div></td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef > Actions </th>
+      <td mat-cell  *matCellDef="let row" > <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="editUser(row.id)">
+            <mat-icon>create</mat-icon>
+            <span>Edit User</span>
+          </button>
+          <button mat-menu-item (click)="deleteUser(row.id)">
+            <mat-icon>remove_circle</mat-icon>
+            <span>Delete User</span>
+          </button>
+        </mat-menu>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"><</tr>
@@ -48,6 +68,66 @@
   </table>
 
 </div>
+  </div>
+  <div *ngIf="showEditForm"  class="content">
+    <h3>Edit Form <button mat-raised-button (click)="showEditForm=false"  color="warn">Cancel</button></h3>
+    <form  fxLayout="column" fxLayoutGap="3px" #EditForm="ngForm" (ngSubmit)="onSubmitEditForm(EditForm)">
+
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input
+          matInput
+          required
+          [(ngModel)]="firstName"
+          name="firstName"
+          type="text"
+          placeholder="First name here"
+        >
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input
+          matInput
+          [(ngModel)]="lastName"
+          name="lastName"
+          type="text"
+          placeholder="Last name here"
+        >
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>National ID</mat-label>
+        <input
+          type="number"
+          required
+          matInput
+          [(ngModel)]="id"
+          name="id"
+          placeholder="ID here">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          [(ngModel)]="email"
+          email
+          name="email"
+          type="email"
+          placeholder="Email here"
+        >
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Phone Number</mat-label>
+        <input
+          matInput
+          [(ngModel)]="phoneNumber"
+          name="phoneNumber"
+          type="number"
+          placeholder="Phone number here"
+        >
+      </mat-form-field>
+      <button mat-raised-button [disabled]="EditForm.invalid" type="submit" color="primary">Edit Person</button>
+    </form>
+  </div>
 </div>
 
 <div class="content" *ngIf="menuItem === 2">
