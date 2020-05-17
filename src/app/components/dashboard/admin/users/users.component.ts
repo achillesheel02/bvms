@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {AdminService} from '../../../../services/admin.service';
 import {MatPaginator} from '@angular/material/paginator';
@@ -12,6 +12,8 @@ import {MatHeaderRowDef, MatRowDef} from '@angular/material/table';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit{
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
   displayedColumns = ['firstName', 'lastName', 'id', 'phoneNumber', 'roles', 'actions'];
   dataSource: MatTableDataSource<{firstName: string, lastName: string, id: number, phoneNumber: number, roles: string []}>;
   data = [];
@@ -28,7 +30,7 @@ export class UsersComponent implements OnInit{
   email: any;
   phoneNumber: any;
 
-  constructor(private adminService: AdminService) {
+  constructor(private adminService: AdminService, private cdr: ChangeDetectorRef) {
     this.adminService.fetchAllUsers()
       .subscribe( res => {
         res.users.forEach( x => {
@@ -41,6 +43,9 @@ export class UsersComponent implements OnInit{
           });
         });
         this.dataSource = new MatTableDataSource(this.data);
+        this.cdr.detectChanges();
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
       });
   }
 
@@ -74,6 +79,9 @@ export class UsersComponent implements OnInit{
           });
         });
         this.dataSource = new MatTableDataSource(this.data);
+        this.cdr.detectChanges();
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
       });
   }
 
