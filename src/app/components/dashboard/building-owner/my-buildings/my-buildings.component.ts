@@ -59,8 +59,11 @@ export class MyBuildingsComponent implements OnInit {
 
   private geoCoder: google.maps.Geocoder;
   showEditForm = false;
+  showPersonnelForm = false;
+  personnelBuilding = null;
 
 
+  // tslint:disable-next-line:max-line-length
   constructor(private adminService: AdminService, private cdr: ChangeDetectorRef, private authService: AuthService, private buildingService: BuildingService) {
     this.authService.getUser()
       .subscribe( res => {
@@ -74,7 +77,7 @@ export class MyBuildingsComponent implements OnInit {
               this.buildingMarkers.push(new google.maps.Marker({
                 position: {lng: x.geoLocation.longitude, lat: x.geoLocation.latitude},
                 animation: google.maps.Animation.BOUNCE,
-                label: x.name,
+                title: x.name,
                 clickable: false
               }));
             });
@@ -190,7 +193,7 @@ export class MyBuildingsComponent implements OnInit {
   }
 
   updateBuildings() {
-    this.buildings =[];
+    this.buildings = [];
     this.buildingService.fetchMyBuildings(this.user._id)
       .subscribe( res2 => {
         res2.buildings.forEach( x => {
@@ -214,7 +217,28 @@ export class MyBuildingsComponent implements OnInit {
       });
   }
 
-  addPersonnel(_id: any) {
+  addPersonnel(id: any) {
+    this.showPersonnelForm=true;
+this.personnelBuilding = id;
+  }
 
+
+
+  onSubmitPersonnel(personnelForm: NgForm) {
+    const formData = {
+      firstName: personnelForm.value.firstName,
+      lastName: personnelForm.value.lastName,
+      roles: ['personnel'],
+      phoneNumber: personnelForm.value.phoneNumber,
+      id: personnelForm.value.id,
+      email: personnelForm.value.email,
+      password: personnelForm.value.password
+    };
+    console.log(formData);
+    this.buildingService.addPersonnel(formData, this.personnelBuilding)
+        .subscribe( () => {
+          console.log('Personnel added successfully');
+          personnelForm.reset();
+        });
   }
 }

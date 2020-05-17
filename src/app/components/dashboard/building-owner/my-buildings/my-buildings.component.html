@@ -10,7 +10,7 @@
     <map-marker
       *ngFor="let building of buildingMarkers"
       [position]= " building.getPosition()"
-      [label]="building.getLabel()"
+      [title]="building.getTitle()"
     >
     </map-marker>
   </google-map>
@@ -126,6 +126,77 @@
     <button mat-raised-button [disabled]="EditForm.invalid" type="submit" color="primary">Edit Building</button>
   </form>
 </div>
+
+<div class="content" *ngIf="showPersonnelForm">
+  <h3>Add Personnel Here</h3>
+
+  <form fxLayout="column" fxLayoutGap="3px" #personnelForm="ngForm" (ngSubmit)="onSubmitPersonnel(personnelForm)">
+    <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input
+        matInput
+        required
+        ngModel
+        name="firstName"
+        type="text"
+        placeholder="First name here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input
+        matInput
+        ngModel
+        name="lastName"
+        type="text"
+        placeholder="Last name here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>National ID</mat-label>
+      <input
+        type="number"
+        required
+        matInput
+        ngModel
+        name="id"
+        placeholder="ID here">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        required
+        ngModel
+        name="password"
+        type="password"
+        placeholder="Password here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        ngModel
+        email
+        name="email"
+        type="email"
+        placeholder="Email here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Phone Number</mat-label>
+      <input
+        matInput
+        ngModel
+        name="phoneNumber"
+        type="number"
+        placeholder="Phone number here"
+      >
+    </mat-form-field>
+    <button mat-raised-button [disabled]="personnelForm.invalid" type="submit" color="primary">Add Personnel</button>
+  </form>
+
 
 <div class="content" *ngIf="menuItem === 2">
   <h3>Add New Building Here</h3>

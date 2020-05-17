@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 const User = require('../models/user');
+const Building = require('../models/building');
 
 
 router.post('/create', (req, res, next) => {
@@ -38,6 +39,43 @@ router.post('/create', (req, res, next) => {
 
 
     })
+});
+
+router.post('/addPersonnel/:id', (req, res, next) => {
+  bcrypt.hash(req.body.password, 10)
+    .then(hash => {
+      const user = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: hash,
+        id: req.body.id,
+        phoneNumber: req.body.phoneNumber,
+        roles: req.body.roles
+      });
+      user.save()
+        .then(result => {
+          Building.updateOne({ _id: req.params.id },{ $push: { personnel: result._id  } })
+            .then(result => {
+              res.status(201).json({
+                message: "Personnel successfully updated.",
+                result: result
+              })
+            })
+        .catch(err => {
+          res.status(500).json({
+            error: err
+          });
+        });
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      });
+
+
+    })
+});
 });
 
 router.get('/all', (req, res, next) => {
