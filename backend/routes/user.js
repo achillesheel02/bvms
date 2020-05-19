@@ -122,6 +122,21 @@ router.get('/fetch/:id', (req, res, next) => {
 
 });
 
+router.get('/fetchSpecific/:id', (req, res, next) => {
+  User.find({ id: req.params.id }).then( user => {
+    res.status(200).json({
+      message: user.length.toString() + " user fetched!",
+      user: user
+    });
+  })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      });
+    });
+
+});
+
 router.get('/role/:id', (req, res, next) => {
   User.find({ roles: req.params.id }).then( users => {
     console.log(users);

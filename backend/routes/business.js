@@ -79,7 +79,7 @@ router.get('/fetchByBuilding/:id', (req, res, next) => {
   Business.find({ building: req.params.id }).then( businesses => {
     res.status(200).json({
       message: businesses.length.toString() + " businesses fetched!",
-      buildings: businesses
+      businesses: businesses
     });
   })
     .catch(err => {
