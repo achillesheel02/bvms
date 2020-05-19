@@ -67,6 +67,10 @@ export class AdminService {
     return this.http.get<{message: string, user: any}>(this.url + 'api/user/fetchByDbId/' + id);
   }
 
+  fetchUser(id){
+    return this.http.get<{message: string, user: any}>(this.url + 'api/user/fetch/' + id);
+  }
+
   fetchBuildingById(id){
     return this.http.get<{message: string, building: any}>(this.url + 'api/building/fetch/' + id);
   }

@@ -38,11 +38,11 @@
           <mat-icon>more_vert</mat-icon>
         </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="editPersonnel( row._id)">
+            <button mat-menu-item (click)="editPersonnel( row.id)">
               <mat-icon>create</mat-icon>
               <span>Edit Personnel</span>
             </button>
-            <button mat-menu-item (click)="deletePersonnel(row._id)">
+            <button mat-menu-item (click)="deletePersonnel(row.id)">
               <mat-icon>remove_circle</mat-icon>
               <span>Delete Personnel</span>
             </button>
@@ -57,4 +57,140 @@
                    [pageSizeOptions]="[5, 10, 25, 100]">
     </mat-paginator>
   </div>
+  <div *ngIf="showEditForm"  class="content">
+    <h3>Edit Form <button mat-raised-button (click)="showEditForm=false"  color="warn">Cancel</button></h3>
+    <form  fxLayout="column" fxLayoutGap="3px" #EditForm="ngForm" (ngSubmit)="onSubmitEditForm(EditForm)">
+
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input
+          matInput
+          required
+          [(ngModel)]="personnelEditInfo.firstName"
+          name="firstName"
+          type="text"
+          placeholder="First name here"
+        >
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input
+          matInput
+          [(ngModel)]="personnelEditInfo.lastName"
+          name="lastName"
+          type="text"
+          placeholder="Last name here"
+        >
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>National ID</mat-label>
+        <input
+          type="number"
+          required
+          matInput
+          [(ngModel)]="personnelEditInfo.id"
+          name="id"
+          placeholder="ID here">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          [(ngModel)]="personnelEditInfo.email"
+          email
+          name="email"
+          type="email"
+          placeholder="Email here"
+        >
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Phone Number</mat-label>
+        <input
+          matInput
+          [(ngModel)]="personnelEditInfo.phoneNumber"
+          name="phoneNumber"
+          type="number"
+          placeholder="Phone number here"
+        >
+      </mat-form-field>
+      <button mat-raised-button [disabled]="EditForm.invalid" type="submit" color="primary">Edit Person</button>
+    </form>
+  </div>
+</div>
+
+<div class="content" *ngIf="menuItem===2">
+  <h3>Add Personnel Here</h3>
+
+  <form fxLayout="column" fxLayoutGap="3px" #personnelForm="ngForm" (ngSubmit)="onSubmitPersonnel(personnelForm)">
+    <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input
+        matInput
+        required
+        ngModel
+        name="firstName"
+        type="text"
+        placeholder="First name here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input
+        matInput
+        ngModel
+        name="lastName"
+        type="text"
+        placeholder="Last name here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>National ID</mat-label>
+      <input
+        type="number"
+        required
+        matInput
+        ngModel
+        name="id"
+        placeholder="ID here">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        required
+        ngModel
+        name="password"
+        type="password"
+        placeholder="Password here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        ngModel
+        email
+        name="email"
+        type="email"
+        placeholder="Email here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Phone Number</mat-label>
+      <input
+        matInput
+        ngModel
+        name="phoneNumber"
+        type="number"
+        placeholder="Phone number here"
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Building</mat-label>
+      <mat-select  ngModel name="building" required>
+        <mat-option *ngFor="let x of buildings" [value]="x._id">{{x.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button [disabled]="personnelForm.invalid" type="submit" color="primary">Add Personnel</button>
+  </form>
 </div>
