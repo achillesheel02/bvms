@@ -30,27 +30,28 @@ export class BuildingBusinessesResidingComponent implements OnInit {
           .subscribe( res2 => {
             res2.buildings.forEach( x => {
               this.buildings.push(x);
+              const businesses = [];
               res2.buildings.forEach( building => {
                 this.buildingService.fetchMyBusinesses(building._id)
                   .subscribe( z => {
-                    console.log(z);
                     z.businesses.forEach( item => {
                       this.adminService.fetchUserNameById(item.businessOwner)
                         .subscribe( user => {
-                          const businessOwner = user.user[0].firstName + ' ' + user.user[0].lastName;
-                          this.businesses.push({
+                         const businessOwner = user.user[0].firstName + ' ' + user.user[0].lastName;
+                         businesses.push({
                             id: item._id,
                             name: item.name,
                             businessOwner,
                             building: building.name,
                             created_at: item.created_at
                           });
-                          this.dataSource = new MatTableDataSource(this.businesses);
-                          this.cdr.detectChanges();
-                          this.dataSource.sort = this.sort;
-                          this.dataSource.paginator = this.paginator;
+                         console.log(businesses);
+                         this.businesses = businesses;
+                         this.dataSource = new MatTableDataSource(businesses);
+                         this.cdr.detectChanges();
+                         this.dataSource.sort = this.sort;
+                         this.dataSource.paginator = this.paginator;
                         });
-
                       });
                 });
               });
