@@ -45,11 +45,12 @@ export class BuildingBusinessesResidingComponent implements OnInit {
                             building: building.name,
                             created_at: item.created_at
                           });
+                          this.dataSource = new MatTableDataSource(this.businesses);
+                          this.cdr.detectChanges();
+                          this.dataSource.sort = this.sort;
+                          this.dataSource.paginator = this.paginator;
                         });
-                      this.dataSource = new MatTableDataSource(this.businesses);
-                      this.cdr.detectChanges();
-                      this.dataSource.sort = this.sort;
-                      this.dataSource.paginator = this.paginator;
+
                       });
                 });
               });
