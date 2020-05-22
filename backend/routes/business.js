@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 const Business = require('../models/business');
+const Building = require('../models/building');
+
 
 router.post('/add', (req, res, next) => {
   const business = new Business({
@@ -74,6 +76,43 @@ router.get('/fetchByOwner/:id', (req, res, next) => {
       });
     });
 });
+
+function getBusinesses(item) {
+  item.forEach(x => {
+    Business.find({building: x._id}).then(re => {
+      console.log(re);
+    })
+  })
+}
+
+router.get('/fetchByPersonnelGuarding/:id', (req, res, next) => {
+
+  Building.find({personnel: req.params.id}).then(building => {
+    const businesses =[];
+    building.forEach(x => {
+      Business.find({building: x._id}).then(re => {
+        businesses.push(re);
+      })
+        .then( () => {
+          res.status(200).json({
+            message: businesses.length.toString() + " businesses fetched!",
+            businesses: [...businesses]
+          });
+        })
+        .catch(err => {
+          res.status(500).json({
+            error: err
+          });
+        });
+    })
+  }).catch(err => {
+    res.status(500).json({
+      error: err
+    });
+  });
+  });
+
+
 
 router.get('/fetchByBuilding/:id', (req, res, next) => {
   Business.find({ building: req.params.id }).then( businesses => {

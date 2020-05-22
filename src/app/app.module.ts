@@ -56,6 +56,7 @@ import {GoogleMapsModule} from '@angular/google-maps';
 import { MyBuildingPersonnelComponent } from './components/dashboard/building-owner/my-building-personnel/my-building-personnel.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 
 
@@ -119,7 +120,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     CdkTableModule,
     GoogleMapsModule,
     MatCardModule,
-    MatGridListModule
+    MatGridListModule,
+    MatButtonToggleModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

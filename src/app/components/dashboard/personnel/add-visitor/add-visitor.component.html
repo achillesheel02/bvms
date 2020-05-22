@@ -1,1 +1,111 @@
-<p>add-visitor works!</p>
+<div class="content">
+  <mat-button-toggle-group #group="matButtonToggleGroup">
+    <mat-button-toggle  value="newVisitor">New Visitor</mat-button-toggle>
+    <mat-button-toggle  value="returningVisitor">Returning Visitor</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+<div class="content" *ngIf="group.value === 'newVisitor'">
+  <h3>Add The Visitor First </h3>
+
+  <form fxLayout="column" fxLayoutGap="3px" #newVisitorForm="ngForm" (ngSubmit)="onSubmitNewVisitor(newVisitorForm)">
+    <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input
+        matInput
+        required
+        ngModel
+        name="firstName"
+        type="text"
+        placeholder="First name here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input
+        matInput
+        ngModel
+        name="lastName"
+        type="text"
+        placeholder="Last name here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>National ID</mat-label>
+      <input
+        type="number"
+        required
+        matInput
+        ngModel
+        name="id"
+        placeholder="ID here">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        required
+        ngModel
+        name="password"
+        type="password"
+        placeholder="Password here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        ngModel
+        email
+        name="email"
+        type="email"
+        placeholder="Email here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Phone Number</mat-label>
+      <input
+        matInput
+        ngModel
+        required
+        name="phoneNumber"
+        type="number"
+        placeholder="Phone number here"
+      >
+    </mat-form-field>
+    <button mat-raised-button [disabled]="newVisitorForm.invalid" type="submit" color="primary">Add New Visitor</button>
+  </form>
+</div>
+
+<div class="content" *ngIf="group.value === 'returningVisitor'">
+  <h3>Sign In Visitor Here</h3>
+
+  <form fxLayout="column" fxLayoutGap="3px" #returningVisitorform="ngForm" (ngSubmit)="onSubmit(returningVisitorform)">
+    <mat-form-field>
+      <mat-label>Guest </mat-label>
+      <mat-select ngModel name="guest" required>
+        <mat-option *ngFor="let x of guests" [value]="x._id">{{x.firstName | titlecase}} {{x.lastName | titlecase}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Business Visiting</mat-label>
+      <mat-select ngModel name="businessVisiting" required>
+        <mat-option *ngFor="let x of businesses" [value]="x._id">{{x.name}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Items</mat-label>
+      <textarea
+        type="text"
+        matInput
+        ngModel
+        name="itemsCarried"
+        placeholder="Items they are carrying? Separate with a comma (',')"></textarea>
+    </mat-form-field>
+
+
+    <button mat-raised-button [disabled]="returningVisitorform.invalid" type="submit" color="primary">Check In</button>
+  </form>
+
+
+</div>
