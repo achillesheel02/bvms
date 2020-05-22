@@ -54,6 +54,65 @@ export class MyBusinessesComponent implements OnInit {
   }
 
   onSubmitEditForm(EditForm: NgForm) {
-
+    this.adminService.editBusiness(EditForm.value, this.editInfo.id)
+      .subscribe( () => {
+        console.log('Business added successfully');
+        this.updateBusinesses();
+        EditForm.reset();
+      });
   }
+
+  editBusiness(id: any) {
+    const business = this.businesses.find(x => x.id === id);
+    this.editInfo = {
+      description: business.description,
+      id,
+      floorNo: business.floorNo,
+      name: business.name
+    };
+    this.showEditForm = true;
+  }
+
+  deleteBusiness(id: any) {
+    this.adminService.deleteBusiness(id)
+      .subscribe( res => {
+        console.log('Business deleted!');
+        this.updateBusinesses();
+      });
+  }
+
+  onSubmit(form: NgForm) {
+    const formData = {
+      name: form.value.name,
+      floorNo: form.value.floorNo,
+      description: form.value.description,
+      businessOwner: this.user._id,
+      building: form.value.building,
+    };
+    this.adminService.addBusiness(formData)
+      .subscribe(() => {
+        console.log('Business added successfully!');
+        this.updateBusinesses();
+        form.reset();
+      });
+  }
+
+    updateBusinesses() {
+    this.businesses = [];
+      this.businessService.fetchMyBusinesses(this.user._id)
+        .subscribe(data => {
+          data.businesses.forEach( x => {
+            const building = this.buildings.find( y => y._id === x.building );
+            this.businesses.push({
+              id: x._id,
+              name: x.name,
+              building: building.name,
+              location: building.location,
+              description: x.description,
+              floorNo: x.floorNo,
+              createdAt: x.created_at
+            });
+          });
+        });
+    }
 }

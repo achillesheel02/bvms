@@ -8,7 +8,7 @@
   <h2 style="text-align: center">My Registered Businesses</h2>
   <mat-grid-list cols="2" rowHeight="2:1">
     <mat-grid-tile *ngFor="let business of businesses" >
-  <mat-card style="min-width: 500px">
+  <mat-card style="min-width: 600px">
     <mat-card-header>
       <mat-card-title>{{business.name}}</mat-card-title>
       <mat-card-subtitle>{{business.building}} - Floor {{business.floorNo }}</mat-card-subtitle>
@@ -19,16 +19,17 @@
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button>EDIT</button>
-      <button mat-button>DELETE</button>
+      <button mat-button (click)="editBusiness(business.id)">EDIT</button>
+      <button mat-button (click)="deleteBusiness(business.id)">DELETE</button>
     </mat-card-actions>
   </mat-card>
     </mat-grid-tile>
   </mat-grid-list>
 
 </div>
+
 <div *ngIf="showEditForm"  class="content">
-  <h3>Edit Building Here <button mat-raised-button (click)="showEditForm=false"  color="warn">Cancel</button></h3>
+  <h3>Edit Business Here <button mat-raised-button (click)="showEditForm=false"  color="warn">Cancel</button></h3>
   <form  fxLayout="column" fxLayoutGap="3px" #EditForm="ngForm" (ngSubmit)="onSubmitEditForm(EditForm)">
     <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
@@ -38,22 +39,78 @@
         [(ngModel)]="editInfo.name"
         name="name"
         type="text"
-        placeholder="Name here"
+        placeholder="Business name here"
       >
     </mat-form-field>
-
     <mat-form-field appearance="outline">
-      <mat-label>Floors</mat-label>
+      <mat-label>Floor Number</mat-label>
       <input
         type="number"
         required
         matInput
-        [(ngModel)]="editInfo.floors"
-        name="floors"
-        placeholder="How many floors?">
+        [(ngModel)]="editInfo.floorNo"
+        name="floorNo"
+        placeholder="What floor?">
     </mat-form-field>
-
-    <button mat-raised-button [disabled]="EditForm.invalid" type="submit" color="primary">Edit Building</button>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="editInfo.description"
+        name="description"
+        type="text"
+        placeholder="A little description"
+      ></textarea>
+    </mat-form-field>
+    <button mat-raised-button [disabled]="EditForm.invalid" type="submit" color="primary">Edit Business</button>
   </form>
 </div>
 
+<div class="content" *ngIf="menuItem === 2">
+  <h3>Add New Business Here</h3>
+
+  <form fxLayout="column" fxLayoutGap="3px" #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        required
+        ngModel
+        name="name"
+        type="text"
+        placeholder="Business name here"
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Building </mat-label>
+      <mat-select ngModel name="building" required>
+        <mat-option *ngFor="let x of buildings" [value]="x._id">{{x.name}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Floor Number</mat-label>
+      <input
+        type="number"
+        required
+        matInput
+        ngModel
+        name="floorNo"
+        placeholder="What floor?">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        ngModel
+        name="description"
+        type="text"
+        placeholder="A little description"
+      ></textarea>
+    </mat-form-field>
+
+
+    <button mat-raised-button [disabled]="form.invalid" type="submit" color="primary">Add Business</button>
+  </form>
+
+
+</div>
