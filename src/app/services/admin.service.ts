@@ -20,6 +20,10 @@ export class AdminService {
     return this.http.post(this.url + 'api/user/create', user);
   }
 
+  addGuest(user){
+    return this.http.post(this.url + 'api/user/createGuest', user);
+  }
+
   addBusiness(business){
     return this.http.post(this.url + 'api/business/add', business);
   }
@@ -73,5 +77,15 @@ export class AdminService {
 
   fetchBuildingById(id){
     return this.http.get<{message: string, building: any}>(this.url + 'api/building/fetch/' + id);
+  }
+
+  authenticate(id: any) {
+    return this.http.get<{message: string, token: string, secret: string}>(this.url + 'api/user/authenticate/' + id);
+  }
+
+  completeAuthenticate(payload) {
+    console.log(payload);
+    // tslint:disable-next-line:max-line-length
+    return this.http.get<{message: string, status: any}>(this.url + 'api/user/authenticateComplete/' + payload.secret + '/' + payload.token);
   }
 }

@@ -6,6 +6,7 @@ const router = express.Router();
 
 const User = require('../models/user');
 const Building = require('../models/building');
+const twoFactor = require('node-2fa');
 
 
 router.post('/create', (req, res, next) => {
@@ -19,6 +20,40 @@ router.post('/create', (req, res, next) => {
         id: req.body.id,
         phoneNumber: req.body.phoneNumber,
         roles: req.body.roles
+      });
+      user.save()
+        .then(result => {
+          res.status(201).json({
+            message: "User successfully created",
+          });
+        })
+        .catch(err => {
+          res.status(500).json({
+            error: err
+          });
+        });
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      });
+
+
+    })
+});
+
+router.post('/createGuest', (req, res, next) => {
+  bcrypt.hash(req.body.password, 10)
+    .then(hash => {
+      const user = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: hash,
+        id: req.body.id,
+        phoneNumber: req.body.phoneNumber,
+        roles: ['guest'],
+        qrCode: req.body.qrCode
       });
       user.save()
         .then(result => {
@@ -120,6 +155,31 @@ router.get('/fetch/:id', (req, res, next) => {
       });
     });
 
+});
+
+router.get('/authenticate/:id', (req, res, next) => {
+  User.find({ id: req.params.id }).then( user => {
+    const newSecret = twoFactor.generateSecret({name: user._id, time: Date.now()});
+    const newToken = twoFactor.generateToken(newSecret.secret);
+    res.status(200).json({
+      message: user.length.toString() + " user fetched!",
+      token: newToken.token,
+      secret: newSecret.secret,
+    });
+  })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      });
+    });
+
+});
+
+router.get('/authenticateComplete/:secret/:token', (req, res, next) => {
+    const status = twoFactor.verifyToken(req.params.secret, req.params.token);
+    res.status(200).json({
+      status: status
+    })
 });
 
 router.get('/fetchSpecific/:id', (req, res, next) => {

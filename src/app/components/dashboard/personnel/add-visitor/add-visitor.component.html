@@ -1,4 +1,5 @@
 <div class="content">
+  <h3>Pick an Option</h3>
   <mat-button-toggle-group #group="matButtonToggleGroup">
     <mat-button-toggle  value="newVisitor">New Visitor</mat-button-toggle>
     <mat-button-toggle  value="returningVisitor">Returning Visitor</mat-button-toggle>
@@ -6,9 +7,11 @@
 </div>
 
 <div class="content" *ngIf="group.value === 'newVisitor'">
-  <h3>Add The Visitor First </h3>
+  <h3 *ngIf="!generateQRCode">Add Visitor </h3>
+  <p *ngIf="generateQRCode">QR Code generated and sent to guest. Guest now has to sign in and display code for check in.
+  Alternatively, take a photo of the QR code below to use for checking in in the next tab.</p>
 
-  <form fxLayout="column" fxLayoutGap="3px" #newVisitorForm="ngForm" (ngSubmit)="onSubmitNewVisitor(newVisitorForm)">
+  <form *ngIf="!generateQRCode" fxLayout="column" fxLayoutGap="3px" #newVisitorForm="ngForm" (ngSubmit)="onSubmitNewVisitor(newVisitorForm)">
     <mat-form-field appearance="outline">
       <mat-label>First Name</mat-label>
       <input
@@ -73,20 +76,40 @@
         placeholder="Phone number here"
       >
     </mat-form-field>
-    <button mat-raised-button [disabled]="newVisitorForm.invalid" type="submit" color="primary">Add New Visitor</button>
+
+
+    <button mat-raised-button *ngIf="!generateQRCode" [disabled]="newVisitorForm.invalid" type="submit" color="primary">Add New Visitor</button>
   </form>
+  <br>
+  <br>
+  <ngx-qrcode style="align-self: center" *ngIf="generateQRCode" id="qr" [elementType]="elementType" [value]="qrCodeValue" errorCorrectionLevel = "L"></ngx-qrcode>
+  <br>
+  <br>
+  <button mat-raised-button *ngIf="generateQRCode" (click)="generateQRCode=false"  color="primary">Add Another Visitor</button>
 </div>
 
 <div class="content" *ngIf="group.value === 'returningVisitor'">
   <h3>Sign In Visitor Here</h3>
+  <h5  *ngIf="ScanShow">Scan Guest Barcode Here</h5>
 
-  <form fxLayout="column" fxLayoutGap="3px" #returningVisitorform="ngForm" (ngSubmit)="onSubmit(returningVisitorform)">
-    <mat-form-field>
-      <mat-label>Guest </mat-label>
-      <mat-select ngModel name="guest" required>
-        <mat-option *ngFor="let x of guests" [value]="x._id">{{x.firstName | titlecase}} {{x.lastName | titlecase}} </mat-option>
-      </mat-select>
-    </mat-form-field>
+  <zxing-scanner *ngIf="ScanShow" (scanSuccess)="getUser($event)" ></zxing-scanner>
+  <form *ngIf="startAuthentication" fxLayout="column" fxLayoutGap="3px" #authCodeform="ngForm" (ngSubmit)="onSubmitAuthCode(authCodeform)">
+  <mat-form-field >
+    <mat-label>Authentication Code </mat-label>
+    <input
+      type="text"
+      matInput
+      required
+      ngModel
+      name="authCode"
+      placeholder="Enter Authentication Code">
+  </mat-form-field>
+    <p *ngIf="authError">Wrong Authentication code</p>
+    <button mat-raised-button [disabled]="authCodeform.invalid" type="submit"  color="primary">Authenticate</button>
+  </form>
+
+  <form fxLayout="column" *ngIf="authSuccess" fxLayoutGap="3px" #returningVisitorform="ngForm" (ngSubmit)="onSubmit(returningVisitorform)">
+    <p>Guest: {{visitor.firstName | titlecase }} {{visitor.lastName | titlecase}}</p>
     <mat-form-field>
       <mat-label>Business Visiting</mat-label>
       <mat-select ngModel name="businessVisiting" required>

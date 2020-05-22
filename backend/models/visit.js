@@ -34,10 +34,6 @@ const visitSchema = new mongoose.Schema({
     timeOut: {
       type: Date,
       required: false,
-    },
-    phoneNumber: {
-      type: Number,
-      required: true
     }}
   ,{timestamps: {
       createdAt: 'created_at',

@@ -57,6 +57,8 @@ import { MyBuildingPersonnelComponent } from './components/dashboard/building-ow
 import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {NgxQRCodeModule} from 'ngx-qrcode2';
+import {ZXingScannerModule} from '@zxing/ngx-scanner';
 
 
 
@@ -121,7 +123,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     GoogleMapsModule,
     MatCardModule,
     MatGridListModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    NgxQRCodeModule,
+    ZXingScannerModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
