@@ -54,6 +54,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {CdkTableModule} from '@angular/cdk/table';
 import {GoogleMapsModule} from '@angular/google-maps';
 import { MyBuildingPersonnelComponent } from './components/dashboard/building-owner/my-building-personnel/my-building-personnel.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatGridListModule} from '@angular/material/grid-list';
+
 
 
 
@@ -86,7 +89,8 @@ import { MyBuildingPersonnelComponent } from './components/dashboard/building-ow
     BuildingAnalyticsComponent,
     BuildingBusinessesResidingComponent,
     BuildingOwnerSettingsComponent,
-    MyBuildingPersonnelComponent
+    MyBuildingPersonnelComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -113,7 +117,9 @@ import { MyBuildingPersonnelComponent } from './components/dashboard/building-ow
     MatSelectModule,
     MatProgressSpinnerModule,
     CdkTableModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    MatCardModule,
+    MatGridListModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

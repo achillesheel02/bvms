@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {AdminService} from '../../../services/admin.service';
+import {AuthService} from '../../../services/auth.service';
+import {BuildingService} from '../../../services/building.service';
+import {BusinessService} from '../../../services/business.service';
 
 @Component({
   selector: 'app-business-owner',
@@ -7,8 +11,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BusinessOwnerComponent implements OnInit {
 
-  tab = 1;
-  constructor() { }
+  tab = 2;
 
   ngOnInit(): void {
   }

@@ -65,7 +65,7 @@ router.get('/fetchByOwner/:id', (req, res, next) => {
   Business.find({ businessOwner: req.params.id }).then( businesses => {
     res.status(200).json({
       message: businesses.length.toString() + " businesses fetched!",
-      buildings: businesses
+      businesses: businesses
     });
   })
     .catch(err => {
