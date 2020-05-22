@@ -71,6 +71,7 @@ export class UsersComponent implements OnInit{
       .subscribe( res => {
         res.users.forEach( x => {
           this.data.push({
+            userId: x._id,
             firstName: x.firstName,
             lastName: x.lastName,
             id: x.id,
@@ -98,6 +99,7 @@ export class UsersComponent implements OnInit{
   editUser(userId: number) {
     this.showEditForm = true;
     const userEdit = this.data.find( x => x.id === userId);
+    this.specifiedUserId = userEdit.userId;
     this.firstName = userEdit.firstName;
     this.lastName = userEdit.lastName;
     this.id = userEdit.id;
@@ -115,7 +117,7 @@ export class UsersComponent implements OnInit{
 
   onSubmitEditForm(EditForm: NgForm) {
     console.log(EditForm.value);
-    this.adminService.editUser(EditForm.value, this.id)
+    this.adminService.editUser(EditForm.value, this.specifiedUserId)
       .subscribe(() => {
         console.log('User edited successfully');
         this.showEditForm = false;

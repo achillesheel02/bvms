@@ -161,7 +161,7 @@ router.patch("/edit/:id",(req, res, next) => {
     id: req.body.id,
     phoneNumber: req.body.phoneNumber,
   });
-  User.updateOne({ id: req.params.id },user)
+  User.updateOne({ _id: req.params.id },user)
     .then(result => {
       res.status(201).json({
         message: "User successfully created.",

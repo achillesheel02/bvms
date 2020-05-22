@@ -24,8 +24,9 @@ export class MyBuildingPersonnelComponent implements OnInit {
   buildings = [];
   user = null;
   showEditForm = false;
-  personnelEditInfo: {firstName: string, lastName: string, id: number, phoneNumber: number, email: string} =
+  personnelEditInfo: {userId: string, firstName: string, lastName: string, id: number, phoneNumber: number, email: string} =
     {
+      userId: '',
       firstName: '',
       lastName: '',
       id: null,
@@ -74,6 +75,7 @@ export class MyBuildingPersonnelComponent implements OnInit {
     this.adminService.fetchUser(id)
       .subscribe( res => {
         this.personnelEditInfo = {
+          userId: res.user[0]._id,
           firstName: res.user[0].firstName,
           lastName: res.user[0].lastName,
           id: res.user[0].id,
@@ -129,7 +131,7 @@ export class MyBuildingPersonnelComponent implements OnInit {
   }
 
   onSubmitEditForm(EditForm: NgForm) {
-    this.adminService.editUser(EditForm.value, this.personnelEditInfo.id)
+    this.adminService.editUser(EditForm.value, this.personnelEditInfo.userId)
       .subscribe(() => {
         console.log('User edited successfully');
         this.showEditForm = false;

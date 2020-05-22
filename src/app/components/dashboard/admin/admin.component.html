@@ -15,11 +15,8 @@
       </a>
       <a mat-list-item (click)="pageSwitcher(5)">
         Businesses
+      </a>
 
-      </a>
-      <a mat-list-item (click)="pageSwitcher(6)">
-        Settings
-      </a>
     </mat-nav-list>
   </mat-drawer>
   <mat-drawer-content>
@@ -31,6 +28,5 @@
     <app-visits *ngIf="tab===3"></app-visits>
     <app-buildings *ngIf="tab===4"></app-buildings>
     <app-businesses *ngIf="tab===5"></app-businesses>
-    <app-settings *ngIf="tab===6"></app-settings>
   </mat-drawer-content>
 </mat-drawer-container>
