@@ -89,7 +89,7 @@ export class BusinessesComponent implements OnInit {
           this.businesses.push({
             id: x._id,
             name: x.name,
-            building: x.building,
+            building: building.name,
             businessOwner: businessOwner.firstName + ' ' + businessOwner.lastName,
             floorNo: x.floorNo,
             description: x. description
