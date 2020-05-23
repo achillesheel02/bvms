@@ -54,7 +54,7 @@
             <mat-icon>create</mat-icon>
             <span>Edit User</span>
           </button>
-          <button mat-menu-item (click)="deleteUser(row.id)">
+          <button disabled mat-menu-item (click)="deleteUser(row.id)">
             <mat-icon>remove_circle</mat-icon>
             <span>Delete User</span>
           </button>
@@ -205,8 +205,6 @@
         <mat-option value="admin">Administrator</mat-option>
         <mat-option value="businessOwner">Business Owner</mat-option>
         <mat-option value="buildingOwner">Building Owner</mat-option>
-        <mat-option value="personnel">Personnel</mat-option>
-        <mat-option value="guest">Guest</mat-option>
       </mat-select>
     </mat-form-field>
 

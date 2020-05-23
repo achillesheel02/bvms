@@ -190,6 +190,8 @@ router.get('/authenticate/:id', (req, res, next) => {
         message: 'Your authentication code is: ' + newToken.token,
         // Set your shortCode or senderId
       }
+      sms.send(options).then(console.log)
+        .catch(console.log);
     }
     res.status(200).json({
       message: user.length.toString() + " user fetched!",
