@@ -110,7 +110,7 @@
   </form>
 
   <form fxLayout="column" *ngIf="authSuccess" fxLayoutGap="3px" #returningVisitorform="ngForm" (ngSubmit)="onSubmit(returningVisitorform)">
-    <div fxLayout="row" fxLayoutGap="5px" ><p>Guest: {{visitor.firstName | titlecase }} {{visitor.lastName | titlecase}}</p><div class="spacer"></div><button mat-raised-button  color="primary" (click)="authSuccess=false;ScanShow=true">Add Different Visitor</button></div>
+    <div fxLayout="row" fxLayoutGap="5px" ><p>Guest: {{!visitor ? '': visitor.firstName | titlecase }} {{!visitor ? '':visitor.lastName | titlecase}}</p><div class="spacer"></div><button mat-raised-button  color="primary" (click)="authSuccess=false;ScanShow=true">Add Different Visitor</button></div>
     <mat-form-field>
       <mat-label>Business Visiting</mat-label>
       <mat-select ngModel name="businessVisiting" required>

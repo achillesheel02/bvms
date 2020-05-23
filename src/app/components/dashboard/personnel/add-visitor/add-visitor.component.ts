@@ -115,7 +115,10 @@ export class AddVisitorComponent implements OnInit {
   getUser($event: string) {
     console.log('User found!');
     this.ScanShow = false;
+    this.loginSuccess = false;
     const id = $event.split('-')[0];
+    console.log(id);
+    console.log(this.guests);
     this.visitor = this.guests.find( x => x.id.toString() === id);
     console.log(this.visitor);
     this.startAuthentication = true;
