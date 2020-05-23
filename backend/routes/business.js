@@ -50,7 +50,7 @@ router.get('/all', (req, res, next) => {
 });
 
 router.get('/fetch/:id', (req, res, next) => {
-  Business.find({ _id: req.params._id }).then( business => {
+  Business.find({ _id: req.params.id }).then( business => {
     res.status(200).json({
       message: business.length.toString() + " business fetched!",
       business: business

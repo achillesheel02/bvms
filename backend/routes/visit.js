@@ -33,10 +33,10 @@ router.post('/add', (req, res, next) => {
     })});
 
 router.get('/all', (req, res, next) => {
-  Visit.find().then( businesses => {
+  Visit.find().then( visits => {
     res.status(200).json({
-      message: businesses.length.toString() + " businesses fetched!",
-      visits: businesses
+      message: visits.length.toString() + " visits fetched!",
+      visits: visits
     });
   })
     .catch(err => {
@@ -48,10 +48,29 @@ router.get('/all', (req, res, next) => {
 });
 
 router.get('/fetch/:id', (req, res, next) => {
-  Business.find({ _id: req.params._id }).then( business => {
+  Visit.find({ _id: req.params.id }).then( visits => {
     res.status(200).json({
-      message: business.length.toString() + " business fetched!",
-      business: business
+      message: visits.length.toString() + " business fetched!",
+      visit: visits
+    });
+  })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
+router.patch('/checkOut/:id', (req, res, next) => {
+  const checkOut = {
+    checkedOut: true,
+    timeOut: Date.now()
+  };
+  Visit.updateOne({ _id: req.params.id },checkOut)
+    .then( result => {
+    res.status(200).json({
+      message:"Checked Out!",
+      result: result
     });
   })
     .catch(err => {

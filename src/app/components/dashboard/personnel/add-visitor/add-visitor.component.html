@@ -89,6 +89,7 @@
 </div>
 
 <div class="content" *ngIf="group.value === 'returningVisitor'">
+  <p *ngIf="loginSuccess"> Visitor checked in successfully. Check 'Visitor's Logged In' section to check visitor out.</p>
   <h3>Sign In Visitor Here</h3>
   <h5  *ngIf="ScanShow">Scan Guest Barcode Here</h5>
 
@@ -109,7 +110,7 @@
   </form>
 
   <form fxLayout="column" *ngIf="authSuccess" fxLayoutGap="3px" #returningVisitorform="ngForm" (ngSubmit)="onSubmit(returningVisitorform)">
-    <p>Guest: {{visitor.firstName | titlecase }} {{visitor.lastName | titlecase}}</p>
+    <div fxLayout="row" fxLayoutGap="5px" ><p>Guest: {{visitor.firstName | titlecase }} {{visitor.lastName | titlecase}}</p><div class="spacer"></div><button mat-raised-button  color="primary" (click)="authSuccess=false;ScanShow=true">Add Different Visitor</button></div>
     <mat-form-field>
       <mat-label>Business Visiting</mat-label>
       <mat-select ngModel name="businessVisiting" required>

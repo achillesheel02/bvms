@@ -12,10 +12,14 @@ export class VisitService {
   }
 
   fetchAllVisits() {
-    return this.http.get<{ message: string, users: any }>(this.url + 'api/visit/all');
+    return this.http.get<{ message: string, visits: any }>(this.url + 'api/visit/all');
   }
 
   addVisit(payload) {
     return this.http.post(this.url + 'api/visit/add', payload);
+  }
+
+  checkOut(id) {
+    return this.http.patch(this.url + 'api/visit/checkOut/' + id, {});
   }
 }

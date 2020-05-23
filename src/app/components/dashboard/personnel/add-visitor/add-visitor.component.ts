@@ -26,6 +26,7 @@ export class AddVisitorComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   authSuccess = false;
   secret = '';
+  loginSuccess = false;
 
   // tslint:disable-next-line:max-line-length
   constructor(private adminService: AdminService, private cdr: ChangeDetectorRef, private authService: AuthService, private personnelService: PersonnelService,
@@ -100,6 +101,13 @@ export class AddVisitorComponent implements OnInit {
     console.log(formData);
     this.visitService.addVisit(formData)
       .subscribe(() => {
+        this.loginSuccess = true;
+        this.generateQRCode = false;
+        this.authError = false;
+        this.ScanShow = true;
+        this.startAuthentication = false;
+        // tslint:disable-next-line:max-line-length
+        this.authSuccess = false;
         console.log('Visit added!');
       });
   }
@@ -131,6 +139,7 @@ export class AddVisitorComponent implements OnInit {
            this.authError = false;
            this.authSuccess = true;
            this.startAuthentication = false;
+
         }
       });
   }

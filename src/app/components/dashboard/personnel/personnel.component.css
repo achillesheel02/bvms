@@ -17,3 +17,7 @@ mat-nav-list {
   width: 200px;
   text-align: center;
 }
+
+.spacer {
+  flex: 1;
+}
