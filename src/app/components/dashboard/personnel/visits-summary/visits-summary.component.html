@@ -50,9 +50,13 @@
           <mat-icon>more_vert</mat-icon>
         </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="checkOutVisitor(row.id)">
+            <button *ngIf="!row.checkedOut" mat-menu-item (click)="checkOutVisitor(row.id)">
               <mat-icon>remove_circle</mat-icon>
               <span>Check Out</span>
+            </button>
+            <button *ngIf="row.checkedOut" mat-menu-item>
+              <mat-icon>remove_circle</mat-icon>
+              <span>No actions necessary</span>
             </button>
           </mat-menu>
         </td>
