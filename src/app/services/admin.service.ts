@@ -88,4 +88,10 @@ export class AdminService {
     // tslint:disable-next-line:max-line-length
     return this.http.get<{message: string, status: any}>(this.url + 'api/user/authenticateComplete/' + payload.secret + '/' + payload.token);
   }
+  getSMSApiStatus(){
+    return this.http.get<{ AT: boolean}>(this.url + 'api/user/getAT');
+  }
+  toggleSMSApiStatus(){
+    return this.http.get<{AT: boolean}>(this.url + 'api/user/toggleAT');
+  }
 }

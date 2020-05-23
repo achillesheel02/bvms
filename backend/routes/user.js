@@ -7,6 +7,13 @@ const router = express.Router();
 const User = require('../models/user');
 const Building = require('../models/building');
 const twoFactor = require('node-2fa');
+const credentials = {
+  apiKey: '969106437e3b6e8f19e37ec3f77b2161525b4a779742a418033a0b2513487805',
+  username: 'okarigregory',
+}
+
+const AfricasTalking = require('africastalking')(credentials);
+let turnOnAT = false;
 
 
 router.post('/create', (req, res, next) => {
@@ -40,6 +47,19 @@ router.post('/create', (req, res, next) => {
 
 
     })
+});
+
+router.get('/toggleAT/', (req, res, next) => {
+  turnOnAT = !turnOnAT;
+  res.status(200).json({
+    AT: turnOnAT
+  });
+});
+
+router.get('/getAT/', (req, res, next) => {
+  res.status(200).json({
+    AT: turnOnAT
+  });
 });
 
 router.post('/createGuest', (req, res, next) => {
@@ -161,6 +181,16 @@ router.get('/authenticate/:id', (req, res, next) => {
   User.find({ id: req.params.id }).then( user => {
     const newSecret = twoFactor.generateSecret({name: user._id, time: Date.now()});
     const newToken = twoFactor.generateToken(newSecret.secret);
+    if (turnOnAT) {
+      let sms = AfricasTalking.SMS;
+      const options = {
+        // Set the numbers you want to send to in international format
+        to: ['+254' + user[0].phoneNumber.toString()],
+        // Set your message
+        message: 'Your authentication code is: ' + newToken.token,
+        // Set your shortCode or senderId
+      }
+    }
     res.status(200).json({
       message: user.length.toString() + " user fetched!",
       token: newToken.token,

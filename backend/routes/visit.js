@@ -6,6 +6,8 @@ const router = express.Router();
 
 const Visit = require('../models/visit');
 
+
+
 router.post('/add', (req, res, next) => {
   const visit = new Visit({
     admittingPersonnel: req.body.admittingPersonnel,
@@ -31,6 +33,7 @@ router.post('/add', (req, res, next) => {
       });
 
     })});
+
 
 router.get('/all', (req, res, next) => {
   Visit.find().then( visits => {
@@ -60,6 +63,8 @@ router.get('/fetch/:id', (req, res, next) => {
       });
     });
 });
+
+
 
 router.patch('/checkOut/:id', (req, res, next) => {
   const checkOut = {

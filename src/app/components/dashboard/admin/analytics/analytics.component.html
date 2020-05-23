@@ -1,1 +1,11 @@
-<p>analytics works!</p>
+<div class="content" >
+  <h2>Main Dashboard</h2>
+  <mat-card>
+    <mat-card-header>
+    <mat-card-title>Africa's Talking Settings</mat-card-title>
+    <mat-card-subtitle>Toggle to enable AfricasTalking SMS authentication</mat-card-subtitle>
+    </mat-card-header><mat-card-content>
+  <mat-slide-toggle (change)="APIchanged()" [(ngModel)]="isChecked">Africa's Talking SMS 2 factor authentication: <strong>{{isChecked? 'On':'Off'}}</strong></mat-slide-toggle>
+  </mat-card-content>
+  </mat-card>
+</div>

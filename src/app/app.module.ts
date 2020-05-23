@@ -59,6 +59,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {NgxQRCodeModule} from 'ngx-qrcode2';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 
@@ -95,38 +96,39 @@ import {ZXingScannerModule} from '@zxing/ngx-scanner';
     MyBuildingPersonnelComponent,
 
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    RouterModule,
-    HttpClientModule,
-    MatToolbarModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FlexLayoutModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatIconModule,
-    FormsModule,
-    MatTabsModule,
-    MatTooltipModule,
-    MatSidenavModule,
-    MatMenuModule,
-    MatListModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatSelectModule,
-    MatProgressSpinnerModule,
-    CdkTableModule,
-    GoogleMapsModule,
-    MatCardModule,
-    MatGridListModule,
-    MatButtonToggleModule,
-    NgxQRCodeModule,
-    ZXingScannerModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        RouterModule,
+        HttpClientModule,
+        MatToolbarModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FlexLayoutModule,
+        MatButtonModule,
+        MatDividerModule,
+        MatIconModule,
+        FormsModule,
+        MatTabsModule,
+        MatTooltipModule,
+        MatSidenavModule,
+        MatMenuModule,
+        MatListModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatSelectModule,
+        MatProgressSpinnerModule,
+        CdkTableModule,
+        GoogleMapsModule,
+        MatCardModule,
+        MatGridListModule,
+        MatButtonToggleModule,
+        NgxQRCodeModule,
+        ZXingScannerModule,
+        MatSlideToggleModule
+    ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],

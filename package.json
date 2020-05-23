@@ -26,6 +26,7 @@
     "@angular/router": "~9.1.1",
     "@techiediaries/ngx-qrcode": "^9.0.0",
     "@zxing/ngx-scanner": "^3.0.0",
+    "africastalking": "^0.4.7",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "debug": "^4.1.1",
