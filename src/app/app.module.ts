@@ -60,6 +60,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {NgxQRCodeModule} from 'ngx-qrcode2';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {ChartsModule} from 'ng2-charts';
 
 
 
@@ -127,7 +128,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
         MatButtonToggleModule,
         NgxQRCodeModule,
         ZXingScannerModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+      ChartsModule
     ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

@@ -66,6 +66,7 @@ router.get('/fetch/:id', (req, res, next) => {
 
 
 
+
 router.patch('/checkOut/:id', (req, res, next) => {
   const checkOut = {
     checkedOut: true,

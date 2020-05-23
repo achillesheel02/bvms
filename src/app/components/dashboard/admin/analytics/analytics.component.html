@@ -1,5 +1,6 @@
 <div class="content" >
   <h2>Main Dashboard</h2>
+  <div fxLayout="row" fxLayoutGap="10px">
   <mat-card>
     <mat-card-header>
     <mat-card-title>Africa's Talking Settings</mat-card-title>
@@ -8,4 +9,43 @@
   <mat-slide-toggle (change)="APIchanged()" [(ngModel)]="isChecked">Africa's Talking SMS 2 factor authentication: <strong>{{isChecked? 'On':'Off'}}</strong></mat-slide-toggle>
   </mat-card-content>
   </mat-card>
+  <mat-card style="min-width: 400px">
+    <mat-card-header >
+      <mat-card-title style="text-align: right">Statistics</mat-card-title>
+      <mat-card-subtitle style="text-align: right">Here is your summary</mat-card-subtitle>
+    </mat-card-header><mat-card-content style="text-align: right">
+    <p>Buildings Registered: <strong style="font-size: large">{{buildings.length}}</strong></p>
+    <p>Businesses Tracking: <strong style="font-size: large">{{businesses.length}}</strong></p>
+    <p>Personnel Signed Up: <strong style="font-size: large">{{personnel.length}}</strong></p>
+    <p>Visits So Far: <strong style="font-size: large">{{visits.length}}</strong></p>
+  </mat-card-content>
+  </mat-card>
+  </div>
+  <div class="content">
+    <h2>All Registered Buildings</h2>
+  <google-map  style="align-self: center" [width]="'800px'" [center]="{lat: 0.0236, lng: 37.9062}" [zoom]="7" [options]="options2 ">
+    <map-marker
+      *ngFor="let building of buildingMarkers"
+      [position]= " building.getPosition()"
+      [title]="building.getTitle()"
+    >
+    </map-marker>
+  </google-map>
+  </div>
+  <div class="content">
+    <h2>Visits</h2>
+    <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="800" height="480" src="https://charts.mongodb.com/charts-project1-psbth/embed/charts?id=4549c0c9-f5f8-4b70-8732-98cfe898e623&theme=light"></iframe>
+    <br>
+
+    <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="800" height="480" src="https://charts.mongodb.com/charts-project1-psbth/embed/charts?id=c373711b-74bb-4d36-b05f-5282829bd287&theme=light"></iframe>
+    <br>
+    <br>
+    <br>
+    <div fxLayout="row" fxLayoutGap="10px">
+
+    <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="640" height="480" src="https://charts.mongodb.com/charts-project1-psbth/embed/charts?id=5337d18f-4705-4d48-a6b2-42679cbb51c4&theme=light"></iframe>
+
+    <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="640" height="480" src="https://charts.mongodb.com/charts-project1-psbth/embed/charts?id=31994a72-1493-49df-a1e7-6bd9378a17cf&theme=light"></iframe>
+    </div>
+    </div>
 </div>
