@@ -36,41 +36,37 @@ export class BusinessesComponent implements OnInit {
           this.buildings.push(x);
           buildings.push(x);
         });
-      });
-    this.adminService.fetchUserByRole('businessOwner')
-      .subscribe( res => {
-        res.users.forEach(x => {
-          this.businessOwners.push(x);
-          businessOwners.push(x);
-        });
-      });
-    console.log(buildings);
-    console.log(businessOwners);
-    this.adminService.fetchAllBusinesses()
-      .subscribe( res => {
-        console.log(res);
-        res.businesses.forEach(x => {
-          const businessOwner = businessOwners.find( y => y._id === x.businessOwner);
-          const building = buildings.find( y => y._id === x.building);
-          console.log(building);
-          this.businesses.push({
-            id: x._id,
-            name: x.name,
-            building: building.name,
-            businessOwner: businessOwner.firstName + ' ' + businessOwner.lastName,
-            floorNo: x.floorNo,
-            description: x. description
-          });
+        this.adminService.fetchUserByRole('businessOwner')
+          .subscribe( res2 => {
+            res2.users.forEach(x => {
+              this.businessOwners.push(x);
+              businessOwners.push(x);
             });
+            this.adminService.fetchAllBusinesses()
+              .subscribe( res3 => {
+                console.log(res);
+                res3.businesses.forEach(x => {
+                  const businessOwner = businessOwners.find( y => y._id === x.businessOwner);
+                  const building = buildings.find( y => y._id === x.building);
+                  console.log(building);
+                  this.businesses.push({
+                    id: x._id,
+                    name: x.name,
+                    building: building.name,
+                    businessOwner: businessOwner.firstName + ' ' + businessOwner.lastName,
+                    floorNo: x.floorNo,
+                    description: x. description
+                  });
+                });
 
-        console.log(this.businesses);
-        this.dataSource = new MatTableDataSource(this.businesses);
-        this.cdr.detectChanges();
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-
-
-      });
+                console.log(this.businesses);
+                this.dataSource = new MatTableDataSource(this.businesses);
+                this.cdr.detectChanges();
+                this.dataSource.sort = this.sort;
+                this.dataSource.paginator = this.paginator;
+              });
+          });
+          });
   }
 
   ngOnInit(): void {
