@@ -49,45 +49,33 @@ export class AnalyticsComponent implements OnInit {
   constructor(private adminService: AdminService, private visitService: VisitService, private authService: AuthService) {
     this.authService.getUser()
       .subscribe(res => {
-        console.log(res);
-        const guests = [];
-        const businesses = [];
-        const users = [];
-        this.adminService.fetchUserByRole('guest')
-          .subscribe(guest => {
-            guest.users.forEach(x => {
-              guests.push(x);
-            });
-          });
-        this.adminService.fetchAllBusinesses()
-          .subscribe(business => {
-            business.businesses.forEach(x => {
-              businesses.push(x);
-            });
-          });
-        this.adminService.fetchAllUsers()
-          .subscribe(res2 => {
-            res2.users.forEach(x => {
-              users.push(x);
-            });
-          });
         this.visitService.fetchAllVisits()
           .subscribe(visits => {
-            visits.visits.forEach(x => {
-              const guestInfo = guests.find(y => y._id === x.guest);
-              const business = businesses.find(y => y._id === x.businessVisiting);
-              const admittingPersonnel = users.find(y => y._id === x.admittingPersonnel);
-              this.visits.push({
-                id: x._id,
-                admittingPersonnel: admittingPersonnel.firstName + ' ' + admittingPersonnel.lastName,
-                guest: guestInfo.firstName + ' ' + guestInfo.lastName,
-                businessVisiting: business.name,
-                itemsCarried: x.itemsCarried,
-                timeIn: x.timeIn,
-                timeOut: x.timeOut,
-                checkedOut: x.checkedOut
+            this.adminService.fetchUserByRole('guest')
+              .subscribe(guest => {
+                this.adminService.fetchAllBusinesses()
+                  .subscribe(bus => {
+                    this.adminService.fetchAllUsers()
+                      .subscribe(res2 => {
+                        visits.visits.forEach(x => {
+                          const guestInfo = guest.users.find(y => y._id === x.guest);
+                          const business = bus.businesses.find(y => y._id === x.businessVisiting);
+                          const admittingPersonnel = res2.users.find(y => y._id === x.admittingPersonnel);
+                          console.log(admittingPersonnel);
+                          this.visits.push({
+                            id: x._id,
+                            admittingPersonnel: admittingPersonnel.firstName + ' ' + admittingPersonnel.lastName,
+                            guest: guestInfo.firstName + ' ' + guestInfo.lastName,
+                            businessVisiting: business.name,
+                            itemsCarried: x.itemsCarried,
+                            timeIn: x.timeIn,
+                            timeOut: x.timeOut,
+                            checkedOut: x.checkedOut
+                          });
+                        });
+                      });
+                  });
               });
-            });
           });
       });
     this.adminService.fetchUserByRole('personnel')
@@ -117,11 +105,9 @@ export class AnalyticsComponent implements OnInit {
             });
             this.adminService.fetchAllBusinesses()
               .subscribe(res3 => {
-                console.log(res);
                 res3.businesses.forEach(x => {
                   const businessOwner = businessOwners.find(y => y._id === x.businessOwner);
                   const building = buildings.find(y => y._id === x.building);
-                  console.log(building);
                   this.businesses.push({
                     id: x._id,
                     name: x.name,

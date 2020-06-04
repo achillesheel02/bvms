@@ -107,8 +107,6 @@ export class BuildingsComponent implements OnInit {
 
   getAddress(latitude, longitude) {
     this.geoCoder.geocode({location: {lat: latitude, lng: longitude}}, (results, status) => {
-      console.log(results);
-      console.log(status);
       if (status === 'OK') {
         if (results[0]) {
           this.location = results[0].formatted_address;
@@ -145,7 +143,6 @@ export class BuildingsComponent implements OnInit {
     this.editInfo.id = building.id;
     this.editInfo.name = building.name;
     this.editInfo.floors = building.floors;
-    console.log(building);
     this.editInfo.geoLocation = {latitude: building.geoLocation.latitude, longitude: building.geoLocation.longitude};
     this.marker = new google.maps.Marker({
       position: {lng: this.editInfo.geoLocation.longitude, lat: this.editInfo.geoLocation.latitude},

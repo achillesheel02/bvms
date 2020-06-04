@@ -6,6 +6,7 @@
 </mat-menu>
 <div   *ngIf="menuItem === 1">
   <h2 style="text-align: center">My Registered Businesses</h2>
+  <div id="visitsChart" style="width: 100%; height: 500px" #visitsChart></div>
   <mat-grid-list cols="2" rowHeight="2:1">
     <mat-grid-tile *ngFor="let business of businesses" >
   <mat-card style="min-width: 600px">
@@ -17,6 +18,7 @@
       <p>
         {{ business.description === '' ? 'No description added' : business.description}}
       </p>
+
     </mat-card-content>
     <mat-card-actions>
       <button mat-button (click)="editBusiness(business.id)">EDIT</button>

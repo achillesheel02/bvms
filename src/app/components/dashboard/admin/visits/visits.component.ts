@@ -28,60 +28,40 @@ export class VisitsComponent implements OnInit {
               private visitService: VisitService) {
     this.authService.getUser()
       .subscribe( res => {
-        console.log(res);
-
-        const businesses = [];
-        this.user = res.user[0];
-        this.adminService.fetchUserByRole('guest')
-          .subscribe( guest => {
-            const guests = [];
-            const users = [];
-            guest.users.forEach( x => {
-              this.guests.push(x);
-              guests.push(x);
-            });
-            this.adminService.fetchAllBusinesses()
-              .subscribe( business => {
-                business.businesses.forEach( x => {
-                  this.businesses.push(x);
-                  businesses.push(x);
-                });
-              });
-            this.adminService.fetchAllUsers()
-              .subscribe( res2 => {
-                res2.users.forEach( x => {
-                  this.users.push(x);
-                  users.push(x);
-                });
-              });
-            this.visitService.fetchAllVisits()
-              .subscribe( visits => {
-                visits.visits.forEach( x => {
-                  const guestInfo = guests.find(y => y._id === x.guest);
-                  const business = businesses.find( y => y._id === x.businessVisiting);
-                  console.log(users);
-                  const admittingPersonnel = users.find(y => y._id === x.admittingPersonnel);
-                  this.visits.push({
-                    id: x._id,
-                    admittingPersonnel: admittingPersonnel.firstName + ' ' + admittingPersonnel.lastName,
-                    guest: guestInfo.firstName + ' ' + guestInfo.lastName,
-                    businessVisiting: business.name,
-                    itemsCarried: x.itemsCarried,
-                    timeIn: x.timeIn,
-                    timeOut: x.timeOut,
-                    checkedOut: x.checkedOut
+        this.visitService.fetchAllVisits()
+          .subscribe(visits => {
+            this.adminService.fetchUserByRole('guest')
+              .subscribe(guest => {
+                this.adminService.fetchAllBusinesses()
+                  .subscribe(bus => {
+                    this.adminService.fetchAllUsers()
+                      .subscribe(res2 => {
+                        visits.visits.forEach(x => {
+                          const guestInfo = guest.users.find(y => y._id === x.guest);
+                          const business = bus.businesses.find(y => y._id === x.businessVisiting);
+                          const admittingPersonnel = res2.users.find(y => y._id === x.admittingPersonnel);
+                          console.log(admittingPersonnel);
+                          this.visits.push({
+                            id: x._id,
+                            admittingPersonnel: admittingPersonnel.firstName + ' ' + admittingPersonnel.lastName,
+                            guest: guestInfo.firstName + ' ' + guestInfo.lastName,
+                            businessVisiting: business.name,
+                            itemsCarried: x.itemsCarried,
+                            timeIn: x.timeIn,
+                            timeOut: x.timeOut,
+                            checkedOut: x.checkedOut
+                          });
+                        });
+                        this.dataSource = new MatTableDataSource(this.visits);
+                        this.cdr.detectChanges();
+                        this.dataSource.sort = this.sort;
+                        this.dataSource.paginator = this.paginator;
+                      });
                   });
-                });
-                console.log(this.visits);
-                console.log(this.user._id);
-                console.log(this.visits);
-                this.dataSource = new MatTableDataSource(this.visits);
-                this.cdr.detectChanges();
-                this.dataSource.sort = this.sort;
-                this.dataSource.paginator = this.paginator;
               });
           });
-          });
+      });
+
   }
 
   ngOnInit(): void {

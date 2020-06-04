@@ -15,6 +15,10 @@ export class VisitService {
     return this.http.get<{ message: string, visits: any }>(this.url + 'api/visit/all');
   }
 
+  fetchPerBusiness(id) {
+    return this.http.get<{ message: string, visits: any }>(this.url + 'api/visit/fetch/business/' + id);
+  }
+
   addVisit(payload) {
     return this.http.post(this.url + 'api/visit/add', payload);
   }

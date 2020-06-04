@@ -64,6 +64,20 @@ router.get('/fetch/:id', (req, res, next) => {
     });
 });
 
+router.get('/fetch/business/:id', (req, res, next) => {
+  Visit.find({ businessVisiting: req.params.id }).then( visits => {
+    res.status(200).json({
+      message: visits.length.toString() + " visits fetched!",
+      visits: visits
+    });
+  })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
 
 
 
