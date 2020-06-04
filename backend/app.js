@@ -5,8 +5,7 @@ const app = express();
 const mongoose = require('mongoose');
 
 
-
-mongoose.connect('mongodb+srv://admin:qnZTnA7rsqObJyLA@cluster0-hdooz.mongodb.net/bvmis?retryWrites=true&w=majority', {
+mongoose.connect('mongodb://admin:qnZTnA7rsqObJyLA@cluster0-shard-00-00-hdooz.mongodb.net:27017,cluster0-shard-00-01-hdooz.mongodb.net:27017,cluster0-shard-00-02-hdooz.mongodb.net:27017/bvmis?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
