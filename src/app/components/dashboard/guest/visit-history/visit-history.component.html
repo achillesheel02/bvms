@@ -1,1 +1,58 @@
-<p>visit-history works!</p>
+<div class="content" >
+  <h2>My Visit History</h2>
+  <google-map  style="align-self: center" [width]="'800px'" [center]="{lat: 0.0236, lng: 37.9062}" [zoom]="7" [options]="options2 ">
+    <map-marker
+      *ngFor="let building of buildingMarkers"
+      [position]= " building.getPosition()"
+      [title]="building.getTitle()"
+    >
+    </map-marker>
+  </google-map>
+
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Looking for something?">
+  </mat-form-field>
+
+  <div class="mat-elevation-z8">
+    <table mat-table matSort [dataSource]="dataSource"  >
+
+      <!-- Progress Column -->
+      <ng-container matColumnDef="businessVisiting">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header > Business Visiting </th>
+        <td mat-cell *matCellDef="let row"> {{row.businessVisiting}} </td>
+      </ng-container>
+
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="timeIn">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Time In </th>
+        <td mat-cell *matCellDef="let row"> {{row.timeIn | date: 'medium'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="checkedOut">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Checked Out </th>
+        <td mat-cell *matCellDef="let row" > {{row.checkedOut? 'Yes' : 'No'}} </td>
+      </ng-container>
+
+      <!-- Color Column -->
+      <ng-container matColumnDef="itemsCarried">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Items Carried </th>
+        <td mat-cell *matCellDef="let row" > <div *ngFor="let item of row.itemsCarried"> {{item === ''? 'No items carried' :item | titlecase}} </div></td>
+      </ng-container>
+
+      <ng-container matColumnDef="timeOut">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Time Out </th>
+        <td mat-cell *matCellDef="let row" > {{row.timeOut | date: 'medium'}} </td>
+      </ng-container>
+
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator *ngIf="visits.length>0"
+                   [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+  </div>
+</div>

@@ -24,6 +24,17 @@
       >
     </mat-form-field>
     <mat-form-field appearance="outline">
+      <mat-label>National ID</mat-label>
+      <input
+        disabled
+        type="number"
+        required
+        matInput
+        [(ngModel)]="user.id"
+        name="id"
+        placeholder="ID here">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input
         matInput

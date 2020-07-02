@@ -89,6 +89,20 @@ router.get('/fetchPersonnel/:id', (req, res, next) => {
     });
 });
 
+router.get('/fetchByBusiness/:id', (req, res, next) => {
+  Building.find({ _id: req.params.id }).then( buildings => {
+    res.status(200).json({
+      message: buildings.length.toString() + " building fetched!",
+      building: building
+    });
+  })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
 router.patch("/edit/:id",(req, res, next) => {
   const building =({
     name: req.body.name,

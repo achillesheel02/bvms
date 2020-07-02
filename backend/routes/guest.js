@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 const Guest = require('../models/guest');
+const Visit = require('../models/visit');
 
 router.post('/add', (req, res, next) => {
   const guest = new Guest({
@@ -52,6 +53,20 @@ router.get('/fetch/:id', (req, res, next) => {
     res.status(200).json({
       message: guest.length.toString() + " guest fetched!",
       guest: guest
+    });
+  })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
+router.get('/visits/:id', (req, res, next) => {
+  Visit.find({ guest: req.params.id }).then( visits => {
+    res.status(200).json({
+      message: visits.length.toString() + " visits fetched!",
+      visits: visits
     });
   })
     .catch(err => {

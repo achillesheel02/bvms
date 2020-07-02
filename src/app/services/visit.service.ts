@@ -15,6 +15,9 @@ export class VisitService {
     return this.http.get<{ message: string, visits: any }>(this.url + 'api/visit/all');
   }
 
+  fetchVisit(id) {
+    return this.http.get<{ message: string, visits: any }>(this.url + 'api/guest/visits/' + id);
+  }
   fetchPerBusiness(id) {
     return this.http.get<{ message: string, visits: any }>(this.url + 'api/visit/fetch/business/' + id);
   }
