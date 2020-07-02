@@ -69,4 +69,27 @@
                    [pageSizeOptions]="[5, 10, 25, 100]">
     </mat-paginator>
   </div>
+  <br>
+  <br>
+  <br>
+  <h5  *ngIf="ScanShow">Scan Guest Barcode To Check Them Out Here</h5>
+
+  <zxing-scanner *ngIf="ScanShow" (scanSuccess)="getUser($event)" ></zxing-scanner>
+
+  <form *ngIf="startAuthentication" fxLayout="column" fxLayoutGap="3px" #authCodeform="ngForm" (ngSubmit)="onSubmitAuthCode(authCodeform)">
+    <mat-form-field >
+      <mat-label>Authentication Code </mat-label>
+      <input
+        type="text"
+        matInput
+        required
+        ngModel
+        name="authCode"
+        placeholder="Enter Authentication Code">
+    </mat-form-field>
+    <p *ngIf="authError">Wrong Authentication code</p>
+    <button mat-raised-button [disabled]="authCodeform.invalid" type="submit"  color="primary">Authenticate</button>
+  </form>
 </div>
+
+

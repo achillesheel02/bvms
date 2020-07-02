@@ -7,6 +7,7 @@ import {VisitService} from '../../../../services/visit.service';
 import {BusinessService} from '../../../../services/business.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-visits-summary',
@@ -23,6 +24,16 @@ export class VisitsSummaryComponent implements OnInit {
   guests = [];
   visits = [];
   user = null;
+  ScanShow = false;
+  authError = false;
+  qrCodeValue: any;
+  value: any;
+  startAuthentication = false;
+  // tslint:disable-next-line:max-line-length
+  authSuccess = false;
+  secret = '';
+  loginSuccess = false;
+  checkOutId = null;
 
   constructor(private adminService: AdminService, private cdr: ChangeDetectorRef, private authService: AuthService, private businessService: BusinessService,
               private visitService: VisitService) {
@@ -87,10 +98,42 @@ export class VisitsSummaryComponent implements OnInit {
   }
 
   checkOutVisitor(id: string) {
-    this.visitService.checkOut(id)
+    this.ScanShow = true;
+    this.checkOutId = id;
+  }
+
+  getUser($event: string) {
+    console.log('User found!');
+    this.ScanShow = false;
+    this.loginSuccess = false;
+    const id = $event.split('-')[0];
+    this.startAuthentication = true;
+    this.adminService.authenticate(id)
       .subscribe( res => {
-        console.log('User Checked Out!');
-        this.updateVisits();
+        console.log(res);
+        this.secret = res.secret;
+      });
+  }
+
+  onSubmitAuthCode(authCodeform: NgForm) {
+    this.adminService.completeAuthenticate({token: authCodeform.value.authCode, secret: this.secret})
+      .subscribe( res => {
+        if (res.status === null) {
+          this.authError = true;
+        } else
+        {
+          console.log(res.status);
+          this.authError = false;
+          this.authSuccess = true;
+          this.startAuthentication = false;
+          this.visitService.checkOut(this.checkOutId)
+            .subscribe( () => {
+              console.log('User Checked Out!');
+              this.updateVisits();
+              this.checkOutId = null;
+            });
+
+        }
       });
   }
 
