@@ -61,6 +61,7 @@ import {NgxQRCodeModule} from 'ngx-qrcode2';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ChartsModule} from 'ng2-charts';
+import { GuestComponent } from './components/dashboard/guest/guest.component';
 
 
 
@@ -95,6 +96,7 @@ import {ChartsModule} from 'ng2-charts';
     BuildingBusinessesResidingComponent,
     BuildingOwnerSettingsComponent,
     MyBuildingPersonnelComponent,
+    GuestComponent,
 
   ],
     imports: [

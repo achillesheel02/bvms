@@ -57,6 +57,7 @@
                    [pageSizeOptions]="[5, 10, 25, 100]">
     </mat-paginator>
   </div>
+  <p *ngIf="editSuccessful" class="content">Personnel edited successfully!</p>
   <div *ngIf="showEditForm"  class="content">
     <h3>Edit Form <button mat-raised-button (click)="showEditForm=false"  color="warn">Cancel</button></h3>
     <form  fxLayout="column" fxLayoutGap="3px" #EditForm="ngForm" (ngSubmit)="onSubmitEditForm(EditForm)">
@@ -120,7 +121,7 @@
 
 <div class="content" *ngIf="menuItem===2">
   <h3>Add Personnel Here</h3>
-
+  <p *ngIf="addSuccessful" (mouseover)="addSuccessful=false" class="content">Personnel added successfully!</p>
   <form fxLayout="column" fxLayoutGap="3px" #personnelForm="ngForm" (ngSubmit)="onSubmitPersonnel(personnelForm)">
     <mat-form-field appearance="outline">
       <mat-label>First Name</mat-label>

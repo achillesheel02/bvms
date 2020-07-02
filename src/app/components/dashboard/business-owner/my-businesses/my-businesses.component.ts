@@ -21,6 +21,8 @@ export class MyBusinessesComponent implements OnInit, AfterViewInit , OnDestroy{
   businesses = [];
   buildings = [];
   user = null;
+  addSuccessful = false;
+  editSuccessful = false;
 
 
   // tslint:disable-next-line:max-line-length
@@ -146,11 +148,13 @@ export class MyBusinessesComponent implements OnInit, AfterViewInit , OnDestroy{
       .subscribe( () => {
         console.log('Business added successfully');
         this.updateBusinesses();
+        this.editSuccessful = true;
         EditForm.reset();
       });
   }
 
   editBusiness(id: any) {
+    this.editSuccessful = false;
     const business = this.businesses.find(x => x.id === id);
     this.editInfo = {
       description: business.description,
@@ -181,6 +185,7 @@ export class MyBusinessesComponent implements OnInit, AfterViewInit , OnDestroy{
       .subscribe(() => {
         console.log('Business added successfully!');
         this.updateBusinesses();
+        this.addSuccessful = true;
         form.reset();
       });
   }

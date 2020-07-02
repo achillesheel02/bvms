@@ -21,6 +21,8 @@ export class BuildingsComponent implements OnInit {
   menuItem = 1;
   buildingOwners = [];
   specifiedBuildingId = null;
+  editSuccessful = false;
+  addSuccessful = false;
   lng = null;
   lat = null;
   selected: any;
@@ -99,6 +101,7 @@ export class BuildingsComponent implements OnInit {
     this.adminService.addBuilding(formData)
       .subscribe( () => {
         console.log('Building added successfully');
+        this.addSuccessful = true;
         form.reset();
         this.updateBuildings();
       });
@@ -139,6 +142,7 @@ export class BuildingsComponent implements OnInit {
 
 
   editBuilding( id: any) {
+    this.editSuccessful=false;
     const building = this.buildings.find( x => id === x.id);
     this.editInfo.id = building.id;
     this.editInfo.name = building.name;
@@ -190,6 +194,7 @@ export class BuildingsComponent implements OnInit {
         this.updateBuildings();
         this.showEditForm = false;
         EditForm.reset();
+        this.editSuccessful = true;
       });
   }
 }

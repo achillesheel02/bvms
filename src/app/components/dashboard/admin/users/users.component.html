@@ -71,6 +71,7 @@
   </mat-paginator>
 </div>
   </div>
+  <p *ngIf="editSuccessful" class="content">User edited successfully!</p>
   <div *ngIf="showEditForm"  class="content">
     <h3>Edit Form <button mat-raised-button (click)="showEditForm=false"  color="warn">Cancel</button></h3>
     <form  fxLayout="column" fxLayoutGap="3px" #EditForm="ngForm" (ngSubmit)="onSubmitEditForm(EditForm)">
@@ -134,6 +135,7 @@
 
 <div class="content" *ngIf="menuItem === 2">
   <h3>Add New Person Here</h3>
+  <p *ngIf="addSuccessful" (mouseover)="addSuccessful=false" class="content">User added successfully!</p>
 
   <form fxLayout="column" fxLayoutGap="3px" #form="ngForm" (ngSubmit)="onSubmit(form)">
     <mat-form-field appearance="outline">

@@ -22,6 +22,8 @@ export class MyBuildingPersonnelComponent implements OnInit {
   menuItem = 1;
   personnel = [];
   buildings = [];
+  addSuccessful = false;
+  editSuccessful = false;
   user = null;
   showEditForm = false;
   personnelEditInfo: {userId: string, firstName: string, lastName: string, id: number, phoneNumber: number, email: string} =
@@ -72,6 +74,7 @@ export class MyBuildingPersonnelComponent implements OnInit {
   }
 
   editPersonnel(id: any) {
+    this.editSuccessful = false;
     this.adminService.fetchUser(id)
       .subscribe( res => {
         this.personnelEditInfo = {
@@ -136,6 +139,7 @@ export class MyBuildingPersonnelComponent implements OnInit {
         console.log('User edited successfully');
         this.showEditForm = false;
         this.updatePersonnelData();
+        this.editSuccessful = true;
         EditForm.reset();
       });
   }
@@ -157,6 +161,7 @@ export class MyBuildingPersonnelComponent implements OnInit {
         console.log('Personnel added successfully');
         personnelForm.reset();
         this.updatePersonnelData();
+        this.addSuccessful = true;
       });
   }
 }

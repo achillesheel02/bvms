@@ -18,6 +18,8 @@ export class BusinessesComponent implements OnInit {
   businesses = [];
   menuItem = 1;
   businessOwners = [];
+  addSuccessful = false;
+  editSuccessful = false;
   buildings = [];
   editInfo: { id: number, name: string, description: string, floorNo: number} = {
     id: null,
@@ -110,6 +112,7 @@ export class BusinessesComponent implements OnInit {
 
 
   editBusiness(id: any) {
+    this.editSuccessful = false;
     console.log(id);
     const business = this.businesses.find(x => x.id === id);
     this.editInfo = {
@@ -135,6 +138,7 @@ export class BusinessesComponent implements OnInit {
       .subscribe( () => {
         console.log('Business added successfully!');
         this.updateBusinesses();
+        this.addSuccessful = true;
         form.reset();
       });
 
@@ -146,6 +150,7 @@ export class BusinessesComponent implements OnInit {
       .subscribe( () => {
         console.log('Business added successfully');
         this.updateBusinesses();
+        this.editSuccessful = true;
         EditForm.reset();
       });
 

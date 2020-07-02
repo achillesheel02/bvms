@@ -19,6 +19,8 @@ export class UsersComponent implements OnInit{
   data = [];
   showEditForm=false;
   specifiedUserId = null;
+  addSuccessful = false;
+  editSuccessful = false;
 
 
   menuItem = 1;
@@ -92,12 +94,14 @@ export class UsersComponent implements OnInit{
         this.data =[];
         console.log('User added successfully!');
         this.updateUserData();
+        this.addSuccessful = true;
         form.reset();
       });
   }
 
   editUser(userId: number) {
     this.showEditForm = true;
+    this.editSuccessful = false;
     const userEdit = this.data.find( x => x.id === userId);
     this.specifiedUserId = userEdit.userId;
     this.firstName = userEdit.firstName;
@@ -122,6 +126,7 @@ export class UsersComponent implements OnInit{
         console.log('User edited successfully');
         this.showEditForm = false;
         this.updateUserData();
+        this.editSuccessful = true;
         EditForm.reset();
       });
   }

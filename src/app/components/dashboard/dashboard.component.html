@@ -4,4 +4,5 @@
   <mat-tab *ngIf="user.roles.indexOf('businessOwner')>=0" label="Business Owner Panel"><app-business-owner></app-business-owner></mat-tab>
   <mat-tab *ngIf="user.roles.indexOf('buildingOwner')>=0" label="Building Owner Panel"><app-building-owner></app-building-owner></mat-tab>
   <mat-tab *ngIf="user.roles.indexOf('personnel')>=0" label="Personnel Panel"><app-personnel></app-personnel></mat-tab>
+  <mat-tab *ngIf="user.roles.indexOf('guest')>=0" label="Guest Panel"><app-guest></app-guest></mat-tab>
 </mat-tab-group>

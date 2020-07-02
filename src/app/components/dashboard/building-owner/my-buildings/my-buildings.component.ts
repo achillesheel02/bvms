@@ -25,6 +25,9 @@ export class MyBuildingsComponent implements OnInit {
   buildingOwners = [];
   buildingMarkers = [];
   specifiedBuildingId = null;
+  addSuccessful = false;
+  editSuccessful = false;
+  addPersonnelSuccessful = false;
   lng = null;
   lat = null;
   selected: any;
@@ -124,6 +127,7 @@ export class MyBuildingsComponent implements OnInit {
     this.adminService.addBuilding(formData)
       .subscribe( () => {
         console.log('Building added successfully');
+        this.addSuccessful = true;
         form.reset();
         this.updateBuildings();
       });
@@ -166,6 +170,7 @@ export class MyBuildingsComponent implements OnInit {
 
 
   editBuilding( id: any) {
+    this.editSuccessful = false;
     const building = this.buildings.find( x => id === x._id);
     console.log(building.geoLocation);
     this.editInfo.id = building._id;
@@ -220,6 +225,7 @@ export class MyBuildingsComponent implements OnInit {
         console.log('Building updated successfully!');
         this.updateBuildings();
         this.showEditForm = false;
+        this.editSuccessful = true;
         EditForm.reset();
       });
   }
@@ -246,6 +252,7 @@ this.personnelBuilding = id;
         .subscribe( () => {
           console.log('Personnel added successfully');
           personnelForm.reset();
+          this.addPersonnelSuccessful = true;
         });
   }
 }
