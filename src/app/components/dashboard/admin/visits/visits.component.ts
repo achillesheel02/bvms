@@ -88,13 +88,7 @@ export class VisitsComponent implements OnInit {
     }
   }
 
-  checkOutVisitor(id: string) {
-    this.visitService.checkOut(id)
-      .subscribe( res => {
-        console.log('User Checked Out!');
-        this.updateVisits();
-      });
-  }
+
   checkOutVisitor(id: string) {
     this.ScanShow = true;
     this.checkOutId = id;
