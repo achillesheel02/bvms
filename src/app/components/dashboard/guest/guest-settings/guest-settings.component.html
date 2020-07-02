@@ -1,0 +1,52 @@
+<div   class="content">
+  <h3>Edit Your Profile Here </h3>
+  <form  fxLayout="column" fxLayoutGap="3px" #EditForm="ngForm" (ngSubmit)="onSubmitEditForm(EditForm)">
+
+    <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input
+        matInput
+        required
+        [(ngModel)]="user.firstName"
+        name="firstName"
+        type="text"
+        placeholder="First name here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input
+        matInput
+        [(ngModel)]="user.lastName"
+        name="lastName"
+        type="text"
+        placeholder="Last name here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        [(ngModel)]="user.email"
+        email
+        name="email"
+        type="email"
+        placeholder="Email here"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Phone Number</mat-label>
+      <input
+        matInput
+        [(ngModel)]="user.phoneNumber"
+        name="phoneNumber"
+        type="number"
+        placeholder="Phone number here"
+      >
+    </mat-form-field>
+    <button mat-raised-button [disabled]="EditForm.invalid" type="submit" color="primary">Update Profile</button>
+  </form>
+  <div *ngIf="editSuccessful">User Edited successfully!</div>
+</div>
+
+
