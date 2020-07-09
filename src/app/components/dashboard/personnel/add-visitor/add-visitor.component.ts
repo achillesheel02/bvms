@@ -116,10 +116,11 @@ export class AddVisitorComponent implements OnInit {
     console.log('User found!');
     this.ScanShow = false;
     this.loginSuccess = false;
+    console.log($event);
     const id = $event.split('-')[0];
     console.log(id);
     console.log(this.guests);
-    this.visitor = this.guests.find( x => x.id.toString() === id);
+    this.visitor = this.guests.find( x => x.id === parseInt(id));
     console.log(this.visitor);
     this.startAuthentication = true;
     this.adminService.authenticate(id)

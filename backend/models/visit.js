@@ -25,7 +25,7 @@ const visitSchema = new mongoose.Schema({
     timeIn: {
       type: Date,
       required: true,
-      default: Date.now()
+      default: Date.now
     },
     checkedOut: {
       type: Boolean,
